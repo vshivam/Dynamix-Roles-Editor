@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ambient Dynamix Roles Editor</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script src="utils.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+
+    <style type='text/css'>
+        html {
+            background-color: #333;
+        }
+        @media only screen and (min-width: 600px) {
+            .ui-page {
+                width: 600px !important;
+                margin: 0 auto !important;
+                position: relative !important;
+                border-right: 5px #666 outset !important;
+                border-left: 5px #666 outset !important;
+            }
+        }
+        .list-item-controls {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .custom-list-item {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-role="page" id="roles-page" data-theme="b">
+        <div data-role="header">
+            <h1>Roles</h1>
+        </div>
+        <!-- /header -->
+
+        <div role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" id="add-new-role">
+                <li class="ui-body" data-icon="plus">
+                    <a href="#addNewRolePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Role</a>
+                </li>
+            </ul>
+            <ul data-role="listview" data-inset="true" id="roles-list">
+            <!-- 
+                Here goes the list of roles 
+            -->
+            </ul>
+            <div data-role="popup" id="addNewRolePopup" data-theme="b">
+                <div style="padding:10px;">
+                    <form id="addNewRoleForm">
+                            <h3> Enter New Role Name </h3>
+                            <input type="text" id="role-name" name="name" data-theme="a">
+                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <div data-role="footer" data-position="fixed">
+            <h4>Page Footer</h4>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!-- /page -->
+
+    <div data-role="page" id="scopes-page" data-theme="b">
+        <!--
+            Here goes the header for the scopes page
+        -->
+        <div role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" id="add-new-scope">
+                <li class="ui-body" data-icon="plus">
+                    <a href="#addNewScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
+                </li>
+            </ul>
+            <ul data-role="listview" data-inset="true" id="scopes-list">
+                <!-- 
+                    Here goes the list of scopes 
+                -->
+            </ul>
+             <div data-role="popup" id="addNewScopePopup" data-theme="b">
+                <div style="padding:10px;">
+                    <form id="addNewScopeForm">
+                            <h3> Enter New Scope Name </h3>
+                            <input type="text" id="scope-name" name="name" data-theme="a">
+                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h4>Page Footer</h4>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!-- /page -->
+
+    <div data-role="page" id="devices-page" data-theme="b">
+        <!-- 
+            Here goes the header for devices page 
+        -->
+        <div role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" id="add-new-plugin">
+                <li class="ui-body" data-icon="plus"><a href="#">Add New Access Control</a>
+                </li>
+            </ul>
+            <ul data-role="listview" class="ui-listview-outer" data-inset="true">
+                <li data-role="collapsible" data-iconpos="right">
+                    <h2>Lighting</h2>
+                    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
+                        <li data-iconpos="right" data-theme="a" data-icon="delete"><a href="#">Device : Max Lifx</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">SWITCH</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">DISPLAY_COLOR</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul data-role="listview" class="ui-listview-outer" data-inset="true">
+                <li data-role="collapsible" data-iconpos="right">
+                    <h2>Bedroom Media</h2>
+                    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
+                        <li data-iconpos="right" data-theme="a" data-icon="delete"><a href="#">Device : All ?</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">DISPLAY_VIDEO</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_PLAY_PAUSE</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_FORWARD_SEEK</a>
+                        </li>
+                        <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_BACKWARD_SEEK</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul data-role="listview" data-inset="true" id="scopes-list">
+                <script id="plugins-list-template" type="text/x-handlebars-template">
+                    {{#each accessProfiles}}
+                    <li class="ui-field-contain">
+                        <div class="custom-list-item">
+                            {{accessProfiles.name}}
+                            <span class="list-item-controls">
+					    	<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-b ui-btn-inline edit-plugin-access" id="{{accessProfiles.pluginId}}"></a>
+					    	<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline remove-plugin-access" id="{{accessProfiles.pluginId}}"></a>
+						</span>
+                        </div>
+                    </li>
+                    {{/each}}
+                </script>
+            </ul>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h4>Page Footer</h4>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!-- /page -->
+</body>
+
+</html>
