@@ -44,8 +44,7 @@ var RoleUtils = {
 
 	openRoleEditor : function(name) {
 		console.log("Opening Role Editor : " + name);
-		SharedData["currentRole"] = name;
-		console.log(SharedData);
+		SharedData.currentRoleName = name;
 		$.mobile.pageContainer.pagecontainer("change", "#scopes-page");
 	},
 
@@ -71,7 +70,7 @@ var RoleUtils = {
 	appendListItem : function(html) {
 		$('#roles-list').append(html);
 		$('#roles-list').listview();
-		$('#roles-list').listview('refresh');
+		$('#roles-list').listview('refresh', true);
 	}, 
 
 	getHtmlFromName : function(name) {
@@ -85,8 +84,10 @@ var ScopeUtils = {
 
 	loadDataIntoView : function() {
 		var that = this;
-		var currentRole = SharedData["currentRole"];
-		console.log(currentRole);
+		var currentRoleName = SharedData["currentRoleName"];
+		console.log(currentRoleName);
+
+		/*** Adding data to page ***/
 		var updateHeader = function(name) {
 			// Add Header
 			var scopesHeaderTemplate = Handlebars.getTemplate('scopes-page-header');
@@ -95,23 +96,39 @@ var ScopeUtils = {
 			$('#scopes-page').enhanceWithin();
 		};
 
-		updateHeader(currentRole);
+		updateHeader(currentRoleName);
 
-		var scopes = Data.scopesForRole[currentRole];
+		var scopes = Data.scopesForRole[currentRoleName];
 		$.each(scopes, function(index, scopeId){
-			var scope = Data.accessScopes[scopeId]["name"];
-			that.addNewScope(scope);
+			var scopeName = Data.accessScopes[scopeId]["name"];
+			that.addNewScope(scopeName, scopeId);
 		});
 		
 		$('#scopes-list').on('click', 'a.edit-scope', function(event){
-			ScopeUtils.openScopeEditor(event.target.id);
+			that.openScopeEditor($(this).data('id'));
 		});
 
+		$('#scopes-list').on('click', 'a.delete_scope', function(event){
+			that.deleteScopeForRole(event.target.id, currentRoleName);
+		});
 
+		/*** Adding data to add new scope dialog ***/
+		var addExistingScopeListitemTemplate = Handlebars.getTemplate('add-existing-scope-listitem');
+		for(var key in Data.accessScopes) {
+			//Only show scopes which don't already exist for this role
+			if(Data.accessScopes.hasOwnProperty(key) && scopes.indexOf(key) == -1) {
+				var accessScope = Data.accessScopes[key];
+				var html = addExistingScopeListitemTemplate(accessScope)
+				console.log(html);
+				$('#scopes-select').append(html);
+			}
+		}
+		$('#scopes-select').selectmenu('refresh');
 	},
 
-	addNewScope : function(name) {
-		var compiledHtml = this.getHtmlFromName(name);
+	addNewScope : function(name, id) {
+		//Does Js generate IDs for new Scopes ?
+		var compiledHtml = this.getHtmlFromNameAndId(name, id);
 		this.appendListItem(compiledHtml);
 	},
 
@@ -120,73 +137,29 @@ var ScopeUtils = {
 		$('#scopes-list').listview('refresh');
 	},
 
-	getHtmlFromName : function(name) {
+	getHtmlFromNameAndId : function(name, id) {
+		var context = {'name':name, 'id':id};
 		var scopesListTemplate = Handlebars.getTemplate('scopes-listitem');
-		return scopesListTemplate(name);
+		return scopesListTemplate({context : context});
 	},
 
-	openScopeEditor : function(name) {
-
-		console.log('Open Scope Editor :' + name);
-
-		var scopesForRole = {"Bedroom": ["5976ac8e-a288-4569-91f6-62d9291607d1",
-		"f157754b-516d-4a13-9425-6ee139631b07"]};
-
-		var accessScopes = {"accessScopes": {
-			"f157754b-516d-4a13-9425-6ee139631b07": {
-				"accessProfiles": [
-				{
-					"name": "Kitchen Lights",
-					"pluginId": "org.ambientdynamix.contextplugins.hueplugin",
-					"deviceId": "Nirandika",
-					"commands": [
-					"SWITCH"
-					]
-				}
-				],
-				"name": "Kitchen",
-				"ID": "f157754b-516d-4a13-9425-6ee139631b07"
-			},
-			// One plugin has one access profile
-			"5976ac8e-a288-4569-91f6-62d9291607d1": {
-				"accessProfiles": [
-				{
-					"name": "Lighting",
-					"pluginId": "org.ambientdynamix.contextplugins.hueplugin",
-					"deviceId": "Max Lifx",
-					"commands": [
-					"SWITCH",
-					"DISPLAY_COLOR"
-					]
-				},
-				{
-					"name": "Bedroom Media",
-					"pluginId": "org.ambientdynamix.contextplugins.ambientmedia",
-					"deviceId": "",
-					"commands": [
-					"DISPLAY_VIDEO",
-					"PLAYBACK_PLAY_PAUSE",
-					"PLAYBACK_FORWARD_SEEK",
-					"PLAYBACK_BACKWARD_SEEK"
-					]
-				}
-				],
-				"name": "Bedroom",
-				"ID": "5976ac8e-a288-4569-91f6-62d9291607d1"
-			}
-		}};
-
-		var scopes = scopesForRole[name];
-		$.each(scopes, function(index, value) {
-			console.log(value);
-		});
+	openScopeEditor : function(id) {
+		console.log('Open Scope Editor : ' + id);
+		SharedData.currentScopeId = id;
+		$.mobile.pageContainer.pagecontainer("change", "#devices-page");
 	},
 
 	deleteScopeForRole : function(scope, role) {
 
-	},
-
-	editScope : function(scope){
 
 	}
+};
+
+DeviceUtils = {
+
+	loadDataIntoView : function() {
+
+	}
+
+
 };

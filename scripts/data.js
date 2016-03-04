@@ -69,6 +69,7 @@ var Data = {
 };
 
 var SharedData = {
-  currentRole : null, 
-  curentScope : null
+  currentRoleName : null, 
+  curentScope : null,
+  currentScopeId : null
 };

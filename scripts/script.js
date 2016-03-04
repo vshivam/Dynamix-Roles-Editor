@@ -23,6 +23,7 @@ $(document).on("pageinit", '#devices-page', function(){
 $(document).on("pagebeforeshow","#scopes-page",function(){ 
 	$('#scopes-header').remove();
 	$('#scopes-list').empty();
+	$('#scopes-select').empty();
 });
 
 $(document).on("pageshow","#scopes-page",function(){ 

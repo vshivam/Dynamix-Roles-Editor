@@ -41,6 +41,14 @@
             -webkit-align-items: center;
             align-items: center;
         }
+
+        #addScopePopup {
+            padding: 10px;
+        }
+
+        #addNewRolePopup {
+            padding: 10px;
+        }
     </style>
 </head>
 
@@ -63,11 +71,12 @@
             -->
             </ul>
             <div data-role="popup" id="addNewRolePopup" data-theme="b">
-                <div style="padding:10px;">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div>
                     <form id="addNewRoleForm">
-                            <h3> Enter New Role Name </h3>
-                            <input type="text" id="role-name" name="name" data-theme="a">
-                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                        <h3> Enter New Role Name </h3>
+                        <input type="text" id="role-name" name="name" data-theme="a">
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                     </form>
                 </div>
             </div>
@@ -88,7 +97,7 @@
         <div role="main" class="ui-content">
             <ul data-role="listview" data-inset="true" id="add-new-scope">
                 <li class="ui-body" data-icon="plus">
-                    <a href="#addNewScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
+                    <a href="#addScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
                 </li>
             </ul>
             <ul data-role="listview" data-inset="true" id="scopes-list">
@@ -96,15 +105,23 @@
                     Here goes the list of scopes 
                 -->
             </ul>
-             <div data-role="popup" id="addNewScopePopup" data-theme="b">
-                <div style="padding:10px;">
+             <div data-role="popup" id="addScopePopup" data-theme="b">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="ui-field-contain">
+                    <form id="addExistingScope">
+                        <select name="scopes-select" id="scopes-select" >
+                            <!-- Here goes the list of existing scopes -->    
+                        </select>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add Existing</button>
+                    </form>
+                    <br/>
                     <form id="addNewScopeForm">
-                            <h3> Enter New Scope Name </h3>
-                            <input type="text" id="scope-name" name="name" data-theme="a">
-                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                        <input type="text" id="scope-name" name="name" data-theme="a">
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create New</button>
                     </form>
                 </div>
             </div>
+
         </div>
 
         <div data-role="footer" data-position="fixed">
