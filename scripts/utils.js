@@ -8,7 +8,8 @@ Handlebars.getTemplate = function(name) {
 	            }
 	            Handlebars.templates[name] = Handlebars.compile(data);
 	        },
-	        async : false
+	        async : false, 
+	        cache: false
 	    });
 	}
 	return Handlebars.templates[name];
@@ -108,8 +109,8 @@ var ScopeUtils = {
 			that.openScopeEditor($(this).data('id'));
 		});
 
-		$('#scopes-list').on('click', 'a.delete_scope', function(event){
-			that.deleteScopeForRole(event.target.id, currentRoleName);
+		$('#scopes-list').on('click', 'a.delete-scope', function(event){
+			that.deleteScopeFromRole($(this).data('id'), currentRoleName);
 		});
 
 		/*** Adding data to add new scope dialog ***/
@@ -138,9 +139,12 @@ var ScopeUtils = {
 	},
 
 	getHtmlFromNameAndId : function(name, id) {
-		var context = {'name':name, 'id':id};
+		var scope = {'name':name, 'id':id};
 		var scopesListTemplate = Handlebars.getTemplate('scopes-listitem');
-		return scopesListTemplate({context : context});
+		console.log(scopesListTemplate);
+		console.log(scope);
+		console.log(scopesListTemplate({scope : scope}));
+		return scopesListTemplate({scope : scope});
 	},
 
 	openScopeEditor : function(id) {
@@ -149,9 +153,12 @@ var ScopeUtils = {
 		$.mobile.pageContainer.pagecontainer("change", "#devices-page");
 	},
 
-	deleteScopeForRole : function(scope, role) {
-
-
+	deleteScopeFromRole : function(scope, role) {
+		console.log('Delete ' + scope + ' from role :' + role);
+		var listOfScopes = Data["scopesForRole"][role];
+		var index = listOfScopes.indexOf(scope);
+		var result = Data["scopesForRole"][role].splice(index, 1);
+		$('li.scopes-listitem#'+scope).remove();
 	}
 };
 

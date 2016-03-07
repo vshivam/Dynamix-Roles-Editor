@@ -1,9 +1,9 @@
-<li class="ui-field-contain">
+<li class="ui-field-contain scopes-listitem" id="{{scope.id}}">
     <div class="custom-list-item">
-        {{context.name}}
+        {{scope.name}}
         <span class="list-item-controls">
-			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-b ui-btn-inline edit-scope" data-id="{{context.id}}" id="{{context.name}}"></a>
-			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline delete-scope" data-id="{{context.id}}" id="{{context.name}}"></a>
+			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-b ui-btn-inline edit-scope" data-id="{{scope.id}}" data-name="{{scope.name}}"></a>
+			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline delete-scope" data-id="{{scope.id}}" data-name="{{scope.name}}"></a>
 		</span>
     </div>
 </li>
