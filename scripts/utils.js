@@ -60,6 +60,7 @@ var RoleUtils = {
 	addNewRole : function(name) {
 		console.log("Sending request to add new role : " + name);
 		Data.roles.push(name);
+		Data["scopesForRole"][name] = [];
 		var html = this.getHtmlFromName(name);
 		this.appendListItem(html);
 	},
@@ -143,9 +144,19 @@ var ScopeUtils = {
 	},
 
 	addNewScope : function(name, id) {
-		//Does Js generate IDs for new Scopes ?
+		var currentRoleName = SharedData["currentRoleName"];
+		console.log(id);
+		if(id == undefined) {
+			/*** This is a new scope that doesn't pre exist, so create new id ***/
+			id = this.guid();
+			Data["accessScopes"][id] = {"accessProfiles" : [],
+							"ID" : id, 
+							"name": name};
+			console.log("Creating new scope with id : " + id);
+		}
 		var compiledHtml = this.getHtmlFromNameAndId(name, id);
 		this.appendListItem(compiledHtml);
+		Data["scopesForRole"][currentRoleName].push(id);
 	},
 
 	appendListItem : function(html) {
@@ -172,6 +183,16 @@ var ScopeUtils = {
 		var result = Data["scopesForRole"][role].splice(index, 1);
 		$('li.scopes-listitem#'+scope).remove();
 		this.refreshAddNewScopesPopup();
+	}, 
+
+	guid : function() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	  }
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	    s4() + '-' + s4() + s4() + s4();
 	}
 };
 
