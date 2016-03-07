@@ -83,23 +83,34 @@ var RoleUtils = {
 
 var ScopeUtils = {
 
+	reset : function() {
+		$('#scopes-header').remove();
+		$('#scopes-list').empty();
+	}, 
+
 	loadDataIntoView : function() {
-		var that = this;
 		var currentRoleName = SharedData["currentRoleName"];
-		console.log(currentRoleName);
+		
+		/*** Clear pre existing html from the page ***/
+		this.reset();
 
-		/*** Adding data to page ***/
-		var updateHeader = function(name) {
-			// Add Header
-			var scopesHeaderTemplate = Handlebars.getTemplate('scopes-page-header');
-			var scopesHeaderCompiledHtml = scopesHeaderTemplate(name);
-			$('#scopes-page').prepend(scopesHeaderCompiledHtml);
-			$('#scopes-page').enhanceWithin();
-		};
+		/*** Update html data ***/
+		this.updateHeader(currentRoleName);
+		this.updateScopesList(currentRoleName);
+		this.refreshAddNewScopesPopup();
+	},
 
-		updateHeader(currentRoleName);
+	updateHeader : function(name) {
+		var scopesHeaderTemplate = Handlebars.getTemplate('scopes-page-header');
+		var scopesHeaderCompiledHtml = scopesHeaderTemplate(name);
+		$('#scopes-page').prepend(scopesHeaderCompiledHtml);
+		$('#scopes-page').enhanceWithin();
+	},
 
+	updateScopesList : function(currentRoleName) {
+		var that = this;
 		var scopes = Data.scopesForRole[currentRoleName];
+
 		$.each(scopes, function(index, scopeId){
 			var scopeName = Data.accessScopes[scopeId]["name"];
 			that.addNewScope(scopeName, scopeId);
@@ -112,15 +123,19 @@ var ScopeUtils = {
 		$('#scopes-list').on('click', 'a.delete-scope', function(event){
 			that.deleteScopeFromRole($(this).data('id'), currentRoleName);
 		});
+	},
 
+	refreshAddNewScopesPopup : function() {
+		$('#scopes-select').empty();
 		/*** Adding data to add new scope dialog ***/
+		var currentRoleName = SharedData["currentRoleName"];
+		var scopes = Data.scopesForRole[currentRoleName];
 		var addExistingScopeListitemTemplate = Handlebars.getTemplate('add-existing-scope-listitem');
 		for(var key in Data.accessScopes) {
 			//Only show scopes which don't already exist for this role
 			if(Data.accessScopes.hasOwnProperty(key) && scopes.indexOf(key) == -1) {
 				var accessScope = Data.accessScopes[key];
 				var html = addExistingScopeListitemTemplate(accessScope)
-				console.log(html);
 				$('#scopes-select').append(html);
 			}
 		}
@@ -141,9 +156,6 @@ var ScopeUtils = {
 	getHtmlFromNameAndId : function(name, id) {
 		var scope = {'name':name, 'id':id};
 		var scopesListTemplate = Handlebars.getTemplate('scopes-listitem');
-		console.log(scopesListTemplate);
-		console.log(scope);
-		console.log(scopesListTemplate({scope : scope}));
 		return scopesListTemplate({scope : scope});
 	},
 
@@ -159,6 +171,7 @@ var ScopeUtils = {
 		var index = listOfScopes.indexOf(scope);
 		var result = Data["scopesForRole"][role].splice(index, 1);
 		$('li.scopes-listitem#'+scope).remove();
+		this.refreshAddNewScopesPopup();
 	}
 };
 
