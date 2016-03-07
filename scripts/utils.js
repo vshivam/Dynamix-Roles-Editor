@@ -28,7 +28,6 @@ var RoleUtils = {
 			that.appendListItem(html);
 		});
 
-
 		$('#roles-list').on('click','a.edit-role', function(event){
 			RoleUtils.openRoleEditor(event.target.id);
 		});
@@ -199,8 +198,43 @@ var ScopeUtils = {
 DeviceUtils = {
 
 	loadDataIntoView : function() {
+		var currentScopeId = SharedData.currentScopeId;
+		var scope = Data["accessScopes"][currentScopeId];
+		this.updateHeader(scope.name);
+		
+		$.each(scope.accessProfiles, function(index, plugin){
+			var pluginListitemTemplate = Handlebars.getTemplate('plugin-listitem');
+			var pluginListitemCompiledHtml = pluginListitemTemplate(plugin);
+
+			$('#plugins-list').append(pluginListitemCompiledHtml);
+			var elems = $('.device-list[data-id="' + plugin.pluginId + '"]');
+
+	 		for(var key in plugin.deviceProfiles) {
+				if(plugin.deviceProfiles.hasOwnProperty(key)) {
+					var deviceProfile = plugin.deviceProfiles[key];
+					var device = {'name' : key, 'id' : key}
+					var deviceListitemTemplate = Handlebars.getTemplate('device-listitem');
+					var deviceListitemCompiledHtml = deviceListitemTemplate({device : device});
+					elems.append(deviceListitemCompiledHtml);
+				}
+	 		}
+
+	 		elems.listview();
+	 		elems.listview('refresh');
+
+		});
+		$('li.plugin-listitem.collapsible').collapsible();
+		$('#plugins-list').listview('refresh');
+	}, 
+
+	updateHeader : function(name) {
+		var devicesHeaderTemplate = Handlebars.getTemplate('devices-page-header');
+		var devicesHeaderCompiledHtml = devicesHeaderTemplate(name);
+		$('#devices-page').prepend(devicesHeaderCompiledHtml);
+		$('#devices-page').enhanceWithin();
+	},
+
+	reset : function() {
 
 	}
-
-
 };

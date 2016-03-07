@@ -18,7 +18,7 @@
     <body>
         <div data-role="page" id="roles-page" data-theme="b">
             <div data-role="header">
-                <h1>Roles</h1>
+                <h1>Hi there!</h1>
             </div>
             <!-- /header -->
             <div role="main" class="ui-content">
@@ -72,7 +72,7 @@
                             <select name="scopes-select" id="scopes-select" >
                                 <!-- Here goes the list of existing scopes -->    
                             </select>
-                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add Existing</button>
+                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
                         </form>
                         <br/>
                         <form id="addNewScopeForm">
@@ -97,50 +97,8 @@
                     <li class="ui-body" data-icon="plus"><a href="#">Add New Access Control</a>
                     </li>
                 </ul>
-                <ul data-role="listview" class="ui-listview-outer" data-inset="true">
-                    <li data-role="collapsible" data-iconpos="right">
-                        <h2>Lighting</h2>
-                        <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
-                            <li data-iconpos="right" data-theme="a" data-icon="delete"><a href="#">Device : Max Lifx</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">SWITCH</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">DISPLAY_COLOR</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul data-role="listview" class="ui-listview-outer" data-inset="true">
-                    <li data-role="collapsible" data-iconpos="right">
-                        <h2>Bedroom Media</h2>
-                        <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
-                            <li data-iconpos="right" data-theme="a" data-icon="delete"><a href="#">Device : All ?</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">DISPLAY_VIDEO</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_PLAY_PAUSE</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_FORWARD_SEEK</a>
-                            </li>
-                            <li data-iconpos="right" data-icon="delete"><a href="#">PLAYBACK_BACKWARD_SEEK</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul data-role="listview" data-inset="true" id="scopes-list">
-                    <script id="plugins-list-template" type="text/x-handlebars-template">
-                        {{#each accessProfiles}}
-                        <li class="ui-field-contain">
-                            <div class="custom-list-item">
-                                {{accessProfiles.name}}
-                                <span class="list-item-controls">
-                        <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-b ui-btn-inline edit-plugin-access" id="{{accessProfiles.pluginId}}"></a>
-                        <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline remove-plugin-access" id="{{accessProfiles.pluginId}}"></a>
-                        </span>
-                            </div>
-                        </li>
-                        {{/each}}
-                    </script>
+                <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
+            
                 </ul>
             </div>
             <div data-role="footer" data-position="fixed">

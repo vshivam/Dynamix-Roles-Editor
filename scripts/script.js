@@ -25,21 +25,18 @@ $(document).on("pageinit", '#roles-page', function(){
 	});
 });
 
-/*
-
-$(document).on("pageinit", '#scopes-page', function(){
-	ScopeUtils.loadDataIntoView();
-});
-
-$(document).on("pageinit", '#devices-page', function(){
-
-});
-*/
-
 $(document).on("pagebeforeshow","#scopes-page",function(){ 
 	ScopeUtils.reset();
 });
 
 $(document).on("pageshow","#scopes-page",function(){ 
 	ScopeUtils.loadDataIntoView();
+});
+
+$(document).on("pagebeforeshow","#devices-page",function(){ 
+	DeviceUtils.reset();
+});
+
+$(document).on("pageshow","#devices-page",function(){ 
+	DeviceUtils.loadDataIntoView();
 });
