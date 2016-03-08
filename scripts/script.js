@@ -23,20 +23,35 @@ $(document).on("pageinit", '#roles-page', function(){
  		ScopeUtils.addNewScope(scopename);
  		ScopeUtils.refreshAddNewScopesPopup();
 	});
+
+	$('#addAccessControlForm').on('submit', function(e){
+		e.preventDefault();
+		var data = $("#addAccessControlForm :input").serializeArray();
+		var id = $('#plugin-id-select option:selected').data('pluginid');
+		var accessControlName = data[0].value;
+		var plugin = {'pluginId' : id, 'name' : accessControlName};
+ 		DeviceUtils.addNewPluginListitem(plugin);
+ 		$('#addAccessControlPopup').popup('close');
+	});
+
+	$(document).on("pagebeforeshow","#scopes-page",function(event){ 
+		console.log("pagebeforeshow scopes page");
+		ScopeUtils.reset();
+	});
+
+	$(document).on("pageshow","#scopes-page",function(event){ 
+		console.log("pageshow scopes page");
+		ScopeUtils.loadDataIntoView();
+	});
+
+	$(document).on("pagebeforeshow","#devices-page",function(event){ 
+		console.log("pagebeforeshow devices page");
+		DeviceUtils.reset();
+	});
+
+	$(document).on("pageshow","#devices-page",function(event){ 
+		console.log("pageshow devices page");
+		DeviceUtils.loadDataIntoView();
+	});
 });
 
-$(document).on("pagebeforeshow","#scopes-page",function(){ 
-	ScopeUtils.reset();
-});
-
-$(document).on("pageshow","#scopes-page",function(){ 
-	ScopeUtils.loadDataIntoView();
-});
-
-$(document).on("pagebeforeshow","#devices-page",function(){ 
-	DeviceUtils.reset();
-});
-
-$(document).on("pageshow","#devices-page",function(){ 
-	DeviceUtils.loadDataIntoView();
-});

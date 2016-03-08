@@ -207,28 +207,18 @@ DeviceUtils = {
 		this.updateHeader(scope.name);
 		
 		$.each(scope.accessProfiles, function(index, plugin){
-			var pluginListitemTemplate = Handlebars.getTemplate('plugin-listitem');
-			var pluginListitemCompiledHtml = pluginListitemTemplate(plugin);
-
-			$('#plugins-list').append(pluginListitemCompiledHtml);
-			var elems = $('.device-list[data-pluginid="' + plugin.pluginId + '"]');
-
-	 		for(var key in plugin.deviceProfiles) {
-				if(plugin.deviceProfiles.hasOwnProperty(key)) {
-					var deviceProfile = plugin.deviceProfiles[key];
-					var device = {'name' : key, 'id' : key}
-					var deviceListitemTemplate = Handlebars.getTemplate('device-listitem');
-					var deviceListitemCompiledHtml = deviceListitemTemplate({device : device});
-					elems.append(deviceListitemCompiledHtml);
-				}
-	 		}
-
-	 		elems.listview();
-	 		elems.listview('refresh');
-
+			that.addNewPluginListitem(plugin);
 		});
-		$('li.plugin-listitem.collapsible').collapsible();
-		$('#plugins-list').listview('refresh');
+
+		$.each(AmbientControlData.plugin_ids, function(index, id) {
+			var plugin = {'pluginId' : id};
+			var select = $('#addAccessControlForm').find('select');
+			var pluginIdListitemTemplate = Handlebars.getTemplate('pluginid-listitem');
+			var pluginIdListitemHtml = pluginIdListitemTemplate({plugin : plugin});
+			select.append(pluginIdListitemHtml);
+			select.selectmenu('refresh');
+		});
+
 
 		$('.device-list').on('click', 'a.edit-device' ,function(event) {
 			var deviceId = $(this).closest('li.device-listitem').data('deviceid');;
@@ -266,6 +256,31 @@ DeviceUtils = {
 		$('#devices-page').enhanceWithin();
 	},
 
+	addNewPluginListitem : function(plugin) {
+		var that = this;
+		var pluginListitemTemplate = Handlebars.getTemplate('plugin-listitem');
+		var pluginListitemCompiledHtml = pluginListitemTemplate({plugin: plugin});
+		$('#plugins-list').append(pluginListitemCompiledHtml);
+	 		for(var key in plugin.deviceProfiles) {
+				if(plugin.deviceProfiles.hasOwnProperty(key)) {
+					var deviceProfile = plugin.deviceProfiles[key];
+					var device = {'name' : key, 'id' : key}
+					that.addDeviceToPlugin(device, plugin.pluginId);
+				}
+	 		}
+		$('li.plugin-listitem.collapsible').collapsible();
+		$('#plugins-list').listview('refresh');
+	}, 
+
+	addDeviceToPlugin : function(device, pluginId) {
+		var elems = $('.device-list[data-pluginid="' + pluginId + '"]');
+		var deviceListitemTemplate = Handlebars.getTemplate('device-listitem');
+		var deviceListitemCompiledHtml = deviceListitemTemplate({device : device});
+		elems.append(deviceListitemCompiledHtml);
+	 	elems.listview();
+	 	elems.listview('refresh');
+	},
+
 	deleteDevice : function(pluginId, deviceId) {
 		var that = this;
 		console.log("Delete device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
@@ -300,7 +315,8 @@ DeviceUtils = {
 	},
 
 	reset : function() {
-
+		$('#devices-header').remove();
+		$('#plugins-list').empty();
 	}, 
 
 	isEmptyObject : function(obj) {

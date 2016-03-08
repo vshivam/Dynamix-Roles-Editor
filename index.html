@@ -36,8 +36,7 @@
                     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                     <div>
                         <form id="addNewRoleForm">
-                            <h3> Enter New Role Name </h3>
-                            <input type="text" id="role-name" name="name" data-theme="a">
+                            <input type="text" id="role-name" name="name" data-theme="a" placeholder="role name">
                             <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                         </form>
                     </div>
@@ -76,8 +75,8 @@
                         </form>
                         <br/>
                         <form id="addNewScopeForm">
-                            <input type="text" id="scope-name" name="name" data-theme="a">
-                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create New</button>
+                            <input type="text" id="scope-name" name="name" data-theme="a" placeholder="scope name">
+                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                         </form>
                     </div>
                 </div>
@@ -94,12 +93,26 @@
                 -->
             <div role="main" class="ui-content">
                 <ul data-role="listview" data-inset="true" id="add-new-plugin">
-                    <li class="ui-body" data-icon="plus"><a href="#">Add New Access Control</a>
+                    <li class="ui-body" data-icon="plus">
+                        <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Access Control</a>
                     </li>
                 </ul>
                 <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
             
                 </ul>
+            </div>
+            <div data-role="popup" id="addAccessControlPopup" data-theme="b">
+                    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <div class="ui-field-contain">
+                        <form id="addAccessControlForm">
+                            <input type="text" name="access-control-name" placeholder="Access control name">
+                            <select name="plugin-id-select" id="plugin-id-select" placeholder="Select plugin id">
+                                <!-- Here goes the list of plugin ids -->    
+                            </select>
+                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div data-role="footer" data-position="fixed">
                 <h4>Page Footer</h4>
