@@ -299,7 +299,7 @@ DeviceUtils = {
 	},
 
 	addNewDevice : function(pluginId) {
-
+		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 
 
 	revokeFullAccess : function(pluginId) {

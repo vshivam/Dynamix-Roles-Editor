@@ -28,12 +28,9 @@ html {
       align-items: center;
 }
 
-#addScopePopup {
-      padding: 10px;
-}
-#addNewRolePopup {
-      padding: 10px;
-}
-#addAccessControlPopup{
+#addScopePopup, 
+#addDeviceToAccessControlPopup,
+#addNewRolePopup, 
+#addAccessControlPopup {
       padding: 10px;
 }

@@ -102,18 +102,31 @@
                 </ul>
             </div>
             <div data-role="popup" id="addAccessControlPopup" data-theme="b">
-                    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                    <div class="ui-field-contain">
-                        <form id="addAccessControlForm">
-                            <input type="text" name="access-control-name" placeholder="Access control name">
-                            <select name="plugin-id-select" id="plugin-id-select" placeholder="Select plugin id">
-                                <!-- Here goes the list of plugin ids -->    
-                            </select>
-                            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
-                        </form>
-                    </div>
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="ui-field-contain">
+                    <form id="addAccessControlForm">
+                        <input type="text" name="access-control-name" placeholder="Access control name">
+                        <select name="plugin-id-select" id="plugin-id-select">
+                            <!-- Here goes the list of plugin ids -->    
+                        </select>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                    </form>
                 </div>
             </div>
+            <div data-role="popup" id="addDeviceToAccessControlPopup" data-theme="b">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="ui-field-contain">
+                    <form id="addDeviceToAccessControlForm">
+                        <select name="device-id-select" id="device-id-select">
+                            <!-- Here goes the list of devices -->    
+                        </select>
+                        <fieldset data-role="controlgroup">
+                            <!-- Here goes the list of command for devices -->
+                        </fieldset>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
+                    </form>
+                </div>
+            </div>            
             <div data-role="footer" data-position="fixed">
                 <h4>Page Footer</h4>
             </div>
