@@ -1,17 +1,17 @@
-<li data-role="collapsible" data-iconpos="right" class="plugin-listitem collapsible">
+<li data-role="collapsible" data-iconpos="right" class="plugin-listitem collapsible" data-pluginid="{{pluginId}}">
     <h2>{{name}}</h2>
     <fieldset class="ui-grid-a">
         <div class="ui-block-a">
-            <button type="submit" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right revoke-access" data-id="{{pluginId}}">Revoke <br/> full <br/> access</button>
+            <button type="submit" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right revoke-access">Revoke <br/> full <br/> access</button>
         </div>
         <div class="ui-block-b">
-            <button type="submit" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right add-new-device" data-id="{{pluginId}}">Add <br/> new <br/> device</button>
+            <button type="submit" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right add-new-device">Add <br/> new <br/> device</button>
         </div>
     </fieldset>
 
     <br/>
 
-    <ul data-role="listview" data-shadow="false" class="device-list" data-id="{{pluginId}}" data-inset="true" data-corners="false">
+    <ul data-role="listview" data-shadow="false" class="device-list" data-pluginid="{{pluginId}}" data-inset="true" data-corners="false">
 
     </ul>
 </li>   

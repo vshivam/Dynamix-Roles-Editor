@@ -197,9 +197,13 @@ var ScopeUtils = {
 
 DeviceUtils = {
 
+	currentScopeId : function(){
+		return SharedData.currentScopeId;
+	},
+
 	loadDataIntoView : function() {
-		var currentScopeId = SharedData.currentScopeId;
-		var scope = Data["accessScopes"][currentScopeId];
+		var that = this;
+		var scope = Data["accessScopes"][this.currentScopeId()];
 		this.updateHeader(scope.name);
 		
 		$.each(scope.accessProfiles, function(index, plugin){
@@ -207,7 +211,7 @@ DeviceUtils = {
 			var pluginListitemCompiledHtml = pluginListitemTemplate(plugin);
 
 			$('#plugins-list').append(pluginListitemCompiledHtml);
-			var elems = $('.device-list[data-id="' + plugin.pluginId + '"]');
+			var elems = $('.device-list[data-pluginid="' + plugin.pluginId + '"]');
 
 	 		for(var key in plugin.deviceProfiles) {
 				if(plugin.deviceProfiles.hasOwnProperty(key)) {
@@ -225,6 +229,34 @@ DeviceUtils = {
 		});
 		$('li.plugin-listitem.collapsible').collapsible();
 		$('#plugins-list').listview('refresh');
+
+		$('.device-list').on('click', 'a.edit-device' ,function(event) {
+			var deviceId = $(this).closest('li.device-listitem').data('deviceid');;
+ 			var pluginId = $(this).closest('ul.device-list').data('pluginid');
+ 			that.editDevice(pluginId, deviceId);
+		});
+
+		$('.device-list').on('click', 'a.delete-device' ,function(event) {
+			/*** Retrieve device id from the parent li **/
+			var parentListitem = $(this).closest('li.device-listitem');
+			var deviceId = parentListitem.data('deviceid');;
+			/*** Retrieve plugin id from the parent ul **/
+ 			var pluginId = $(this).closest('ul.device-list').data('pluginid');
+ 			that.deleteDevice(pluginId, deviceId);
+ 			parentListitem.remove();
+		});
+
+		$('button.add-new-device').on('click', function(event){
+ 			var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
+ 			that.addNewDevice(pluginId);
+		});
+
+		$('button.revoke-access').on('click', function(event){
+			var parentCollapsible = $(this).closest('li.plugin-listitem');
+			var pluginId = parentCollapsible.data('pluginid');
+			parentCollapsible.remove();
+			that.revokeFullAccess(pluginId);
+		});
 	}, 
 
 	updateHeader : function(name) {
@@ -234,7 +266,50 @@ DeviceUtils = {
 		$('#devices-page').enhanceWithin();
 	},
 
+	deleteDevice : function(pluginId, deviceId) {
+		var that = this;
+		console.log("Delete device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
+		var accessProfiles = Data["accessScopes"][SharedData.currentScopeId]["accessProfiles"];
+		$.each(accessProfiles, function(index, plugin) {
+			console.log(plugin.pluginId);
+			if(plugin.pluginId == pluginId) {
+				delete plugin.deviceProfiles[deviceId];
+				return false;
+			}
+		});
+	}, 
+
+	editDevice : function(pluginId, deviceId) {
+		console.log("Edit device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
+	},
+
+	addNewDevice : function(pluginId) {
+
+	}, 
+
+	revokeFullAccess : function(pluginId) {
+		console.log(pluginId);
+		var accessProfiles = Data["accessScopes"][SharedData.currentScopeId]["accessProfiles"];
+		$.each(accessProfiles, function(index, plugin) {
+			console.log(plugin.pluginId);
+			if(plugin.pluginId == pluginId) {
+				var spliced = accessProfiles.splice(index, 1);
+				return false;
+			}
+		});
+	},
+
 	reset : function() {
 
+	}, 
+
+	isEmptyObject : function(obj) {
+		for(var prop in obj) {
+			if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+			return false;
+			}
+		}
+		return true;
 	}
+
 };
