@@ -89,6 +89,7 @@ AmbientControlData = {
 
   getCommandsFor : function(pluginId){
     var that = this;
+    console.log(pluginId);
     if (this.commandsMap === undefined || this.commandsMap[pluginId] === undefined) {
       var url = this.server_url.replace('%s', pluginId);
       console.log(url);
@@ -119,7 +120,7 @@ AmbientControlData = {
           async : false, 
           cache: false
       });
-    }
+    };
     return this.commandsMap[pluginId];
   }, 
 

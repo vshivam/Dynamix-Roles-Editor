@@ -105,7 +105,7 @@
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                 <div class="ui-field-contain">
                     <form id="addAccessControlForm">
-                        <input type="text" name="access-control-name" placeholder="Access control name">
+                        <input type="text" name="access-control-name" placeholder="access control name">
                         <select name="plugin-id-select" id="plugin-id-select">
                             <!-- Here goes the list of plugin ids -->    
                         </select>
@@ -115,14 +115,17 @@
             </div>
             <div data-role="popup" id="addDeviceToAccessControlPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <div class="ui-field-contain">
+                <div>
                     <form id="addDeviceToAccessControlForm">
                         <select name="device-id-select" id="device-id-select">
                             <!-- Here goes the list of devices -->    
                         </select>
-                        <fieldset data-role="controlgroup">
+                        <br/>
+                        <fieldset data-role="controlgroup" id="device-commands-controlgroup">
                             <!-- Here goes the list of command for devices -->
+
                         </fieldset>
+                        <br/>
                         <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
                     </form>
                 </div>

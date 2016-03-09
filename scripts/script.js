@@ -34,22 +34,23 @@ $(document).on("pageinit", '#roles-page', function(){
  		$('#addAccessControlPopup').popup('close');
 	});
 
-	$(document).on("pagebeforeshow","#scopes-page",function(event){ 
+/*
+	$(document).one("pagebeforeshow","#scopes-page",function(event){ 
 		console.log("pagebeforeshow scopes page");
 		ScopeUtils.reset();
 	});
-
-	$(document).on("pageshow","#scopes-page",function(event){ 
+*/
+	$(document).one("pageshow","#scopes-page",function(event){ 
 		console.log("pageshow scopes page");
 		ScopeUtils.loadDataIntoView();
 	});
-
+/*
 	$(document).on("pagebeforeshow","#devices-page",function(event){ 
 		console.log("pagebeforeshow devices page");
 		DeviceUtils.reset();
 	});
-
-	$(document).on("pageshow","#devices-page",function(event){ 
+*/
+	$(document).one("pageshow","#devices-page",function(event){ 
 		console.log("pageshow devices page");
 		DeviceUtils.loadDataIntoView();
 	});

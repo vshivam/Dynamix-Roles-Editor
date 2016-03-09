@@ -299,6 +299,29 @@ DeviceUtils = {
 	},
 
 	addNewDevice : function(pluginId) {
+		console.log('Showing dialog for list of devices : ' + pluginId);
+		var deviceIdListitemTemplate = Handlebars.getTemplate('deviceid-listitem');
+		var deviceIds = AmbientControlData.getDevicesFor(pluginId);
+		$.each(deviceIds, function(index, deviceId){
+			var device = {'deviceId' : deviceId};
+			var deviceIdListItemHtml = deviceIdListitemTemplate({device : device});
+			$('#device-id-select').append(deviceIdListItemHtml);
+		});
+		$('#device-id-select').selectmenu('refresh');
+		
+		$('#device-id-select').change(function() {
+			$('#device-commands-controlgroup').find('.ui-controlgroup-controls ').empty();
+			var deviceId = $(this).val();
+			console.log(deviceId);
+			var deviceCommandListitemTemplate = Handlebars.getTemplate('command-listitem');
+			var commands = AmbientControlData.getCommandsFor(pluginId);
+			$.each(commands, function(index, command_name){
+				var command = {'name' : command_name, 'selected' : true};
+				var deviceCommandListitemHtml = deviceCommandListitemTemplate({command : command});
+				$('#device-commands-controlgroup').controlgroup('container').append(deviceCommandListitemHtml);
+				$('#device-commands-controlgroup').enhanceWithin().controlgroup("refresh");
+			});
+		});
 		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 
 

@@ -1,0 +1,6 @@
+<label for={{command.name}}"> {{command.name}} </label>
+{{#if command.selected}}
+<input type="checkbox" name="{{command.name}}" id={{command.name}} checked="checked">
+{{else}}
+<input type="checkbox" name="{{command.name}}" id={{command.name}}
+{{/if}}
