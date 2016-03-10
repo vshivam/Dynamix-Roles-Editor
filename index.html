@@ -129,7 +129,22 @@
                         <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
                     </form>
                 </div>
-            </div>            
+            </div>     
+            <div data-role="popup" id="editDeviceAccessPopup" data-theme="b">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div>
+                    <form id="editDeviceAccessForm">
+                        <center><h3 id="device-name"> </h3></center>
+                        <br/>
+                        <fieldset data-role="controlgroup" id="edit-device-commands-controlgroup">
+                            <!-- Here goes the list of command for devices -->
+
+                        </fieldset>
+                        <br/>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
+                    </form>
+                </div>
+            </div>         
             <div data-role="footer" data-position="fixed">
                 <h4>Page Footer</h4>
             </div>

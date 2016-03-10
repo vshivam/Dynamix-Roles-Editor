@@ -28,16 +28,19 @@ var RoleUtils = {
 			that.appendListItem(html);
 		});
 
-		$('#roles-list').on('click','a.edit-role', function(event){
-			RoleUtils.openRoleEditor(event.target.id);
+		$('#roles-list').on('click','a.edit-role', function(e){
+			e.preventDefault();
+			RoleUtils.openRoleEditor(e.target.id);
 		});
 
-		$('#roles-list').on('click', 'button.share-nfc', function(event){
-			RoleUtils.shareViaNfc(event.target.id);
+		$('#roles-list').on('click', 'button.share-nfc', function(e){
+			e.preventDefault();
+			RoleUtils.shareViaNfc(e.target.id);
 		});
 
-		$('#roles-list').on('click', 'button.share-qr', function(event){
-			RoleUtils.shareViaQRCode(event.target.id);
+		$('#roles-list').on('click', 'button.share-qr', function(e){
+			e.preventDefault();
+			RoleUtils.shareViaQRCode(e.target.id);
 		});
 
 	},
@@ -46,6 +49,7 @@ var RoleUtils = {
 		console.log("Opening Role Editor : " + name);
 		SharedData.currentRoleName = name;
 		$.mobile.pageContainer.pagecontainer("change", "#scopes-page");
+		ScopeUtils.reset();
 	},
 
 	shareViaNfc : function(name) {
@@ -89,6 +93,7 @@ var ScopeUtils = {
 	}, 
 
 	loadDataIntoView : function() {
+		this.reset();
 		var currentRoleName = SharedData["currentRoleName"];
 		
 		/*** Clear pre existing html from the page ***/
@@ -197,13 +202,21 @@ var ScopeUtils = {
 
 DeviceUtils = {
 
+	getScope : function() {
+		return Data["accessScopes"][this.currentScopeId()];
+	},
+
+	getAccessProfiles : function() {
+		return Data["accessScopes"][this.currentScopeId()]["accessProfiles"];
+	},
+
 	currentScopeId : function(){
 		return SharedData.currentScopeId;
 	},
 
 	loadDataIntoView : function() {
 		var that = this;
-		var scope = Data["accessScopes"][this.currentScopeId()];
+		var scope = this.getScope();
 		this.updateHeader(scope.name);
 		
 		$.each(scope.accessProfiles, function(index, plugin){
@@ -272,7 +285,7 @@ DeviceUtils = {
 	deleteDevice : function(pluginId, deviceId) {
 		var that = this;
 		console.log("Delete device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
-		var accessProfiles = Data["accessScopes"][SharedData.currentScopeId]["accessProfiles"];
+		var accessProfiles = this.getAccessProfiles();
 		$.each(accessProfiles, function(index, plugin) {
 			console.log(plugin.pluginId);
 			if(plugin.pluginId == pluginId) {
@@ -284,6 +297,70 @@ DeviceUtils = {
 
 	editDevice : function(pluginId, deviceId) {
 		console.log("Edit device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
+		var that = this;
+
+		/*** Clear popup ui. It might have existing data if the popup was openend before ***/
+		$('#edit-device-commands-controlgroup').controlgroup("container").empty();
+
+		$('#device-name').html(deviceId);
+		var updateListOfCommands = function(pluginId, deviceId){
+			var accessProfiles = that.getAccessProfiles();
+			var pre_approved_commands; 
+			$.each(accessProfiles, function(index, plugin) {
+				console.log(plugin.pluginId);
+				if(plugin.pluginId == pluginId) {
+					pre_approved_commands = plugin["deviceProfiles"][deviceId];
+					return false;
+				}
+			});
+			console.log(pre_approved_commands);
+			var callback = function(commands) {
+				$.each(commands, function(index, command_name){
+					var selected = true;
+					if(pre_approved_commands.indexOf(command_name) == -1){
+						selected = false;
+					}
+					var command = {'name' : command_name, 'selected' : selected};
+					var deviceCommandListitemTemplate = Handlebars.getTemplate('command-listitem');
+					var deviceCommandListitemHtml = deviceCommandListitemTemplate({command : command});
+					$('#edit-device-commands-controlgroup').controlgroup("container").append(deviceCommandListitemHtml);
+				});
+				$("#edit-device-commands-controlgroup").enhanceWithin().controlgroup( "refresh" );
+			};
+			AmbientControlData.getCommandsFor(pluginId, callback);
+		};
+
+		updateListOfCommands(pluginId, deviceId);
+		
+		/*** Adding a listener using _one_ so that the listener doesn't get duplicated ***/
+		$('#addDeviceToAccessControlForm').one('submit', function(e){
+			e.preventDefault();
+			var deviceId = $("#device-id-select").val();
+			var data = $("#device-commands-controlgroup :input").serializeArray();
+			var approved_commands = [];
+			$.each(data, function(index, command){
+				if(command.value == "on"){
+					approved_commands.push(command.name);
+				}
+			});
+			console.log("Approving " + approved_commands +" for device " + deviceId);
+			console.log("for " + that.currentScopeId() + " \n " + pluginId );
+	 		that.addDeviceToPlugin(deviceId, pluginId);
+	 		/*** Adding data to the Data object ***/
+	 		var accessProfiles = that.getAccessProfiles();
+	 		$.each(accessProfiles, function(index, plugin) {
+				if(plugin.pluginId == pluginId) {
+					if(plugin.deviceProfiles[deviceId] === undefined){
+						plugin.deviceProfiles[deviceId] = [];
+					}
+					plugin.deviceProfiles[deviceId] = plugin.deviceProfiles[deviceId].concat(approved_commands);
+					console.log(plugin.deviceProfiles[deviceId]);
+					return false;
+				}
+			});
+	 		$('#editDeviceAccessPopup').popup('close');
+		});
+		$('#editDeviceAccessPopup').popup('open');
 	},
 
 	showAddNewDevicePopup : function(pluginId) {
@@ -318,6 +395,7 @@ DeviceUtils = {
 
 		updateListOfCommands(pluginId);
 		
+		/*** Adding a listener using _one_ so that the listener doesn't get duplicated ***/
 		$('#addDeviceToAccessControlForm').one('submit', function(e){
 			e.preventDefault();
 			var deviceId = $("#device-id-select").val();
@@ -331,6 +409,18 @@ DeviceUtils = {
 			console.log("Approving " + approved_commands +" for device " + deviceId);
 			console.log("for " + that.currentScopeId() + " \n " + pluginId );
 	 		that.addDeviceToPlugin(deviceId, pluginId);
+	 		/*** Adding data to the Data object ***/
+	 		var accessProfiles = that.getAccessProfiles();
+	 		$.each(accessProfiles, function(index, plugin) {
+				if(plugin.pluginId == pluginId) {
+					if(plugin.deviceProfiles[deviceId] === undefined){
+						plugin.deviceProfiles[deviceId] = [];
+					}
+					plugin.deviceProfiles[deviceId] = plugin.deviceProfiles[deviceId].concat(approved_commands);
+					console.log(plugin.deviceProfiles[deviceId]);
+					return false;
+				}
+			});
 	 		$('#addDeviceToAccessControlPopup').popup('close');
 		});
 		$('#addDeviceToAccessControlPopup').popup('open');

@@ -32,16 +32,21 @@ $(document).on("pageinit", '#roles-page', function(){
 		var accessControlName = data[0].value;
 		var plugin = {'pluginId' : id, 'name' : accessControlName};
  		DeviceUtils.addNewPluginListitem(plugin);
+ 		var scope = DeviceUtils.getScope();
+ 		console.log(scope["accessProfiles"]);
+ 		var accessProfile = {name : accessControlName, pluginId : pluginId, deviceProfiles : {}};
+ 		scope["accessProfiles"].push(accessProfile);
+ 		console.log(scope["accessProfiles"]);
  		$('#addAccessControlPopup').popup('close');
 	});
 
 	/*** Page change Listeners ***/
-	$(document).one("pageshow","#scopes-page",function(event){ 
+	$(document).on("pageshow","#scopes-page",function(event){ 
 		console.log("pageshow scopes page");
 		ScopeUtils.loadDataIntoView();
 	});
 
-	$(document).one("pageshow","#devices-page",function(event){ 
+	$(document).on("pageshow","#devices-page",function(event){ 
 		console.log("pageshow devices page");
 		DeviceUtils.loadDataIntoView();
 	});
@@ -53,14 +58,11 @@ $(document).on("pageinit", '#roles-page', function(){
 			DeviceUtils.showAddNewDevicePopup(pluginId);
 	});
 
-	/*** Button click listeners***/
-	
-
-	$('button.revoke-access').on('click', function(){
-		var parentCollapsible = $(this).closest('li.plugin-listitem');
-		var pluginId = parentCollapsible.data('pluginid');
-		parentCollapsible.remove();
-		that.revokeFullAccess(pluginId);
+	$('#plugins-list').on('click', 'button.revoke-access', function(){
+			var parentCollapsible = $(this).closest('li.plugin-listitem');
+			var pluginId = parentCollapsible.data('pluginid');
+			parentCollapsible.remove();
+			that.revokeFullAccess(pluginId);
 	});
 });
 

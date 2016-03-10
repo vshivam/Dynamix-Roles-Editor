@@ -31,7 +31,8 @@ html {
 #addScopePopup, 
 #addDeviceToAccessControlPopup,
 #addNewRolePopup, 
-#addAccessControlPopup {
+#addAccessControlPopup, 
+#editDeviceAccessPopup {
       padding: 10px;
       width: 100%;
 }
