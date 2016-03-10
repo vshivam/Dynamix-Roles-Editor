@@ -314,13 +314,16 @@ DeviceUtils = {
 			var deviceId = $(this).val();
 			console.log(deviceId);
 			var deviceCommandListitemTemplate = Handlebars.getTemplate('command-listitem');
-			var commands = AmbientControlData.getCommandsFor(pluginId);
-			$.each(commands, function(index, command_name){
-				var command = {'name' : command_name, 'selected' : true};
-				var deviceCommandListitemHtml = deviceCommandListitemTemplate({command : command});
-				$('#device-commands-controlgroup').controlgroup('container').append(deviceCommandListitemHtml);
-				$('#device-commands-controlgroup').enhanceWithin().controlgroup("refresh");
-			});
+			var callback = function(commands) {
+				$.each(commands, function(index, command_name){
+					var command = {'name' : command_name, 'selected' : false};
+					var deviceCommandListitemHtml = deviceCommandListitemTemplate({command : command});
+					console.log(deviceCommandListitemHtml);
+					$('#device-commands-controlgroup').controlgroup("container").append(deviceCommandListitemHtml);
+				});
+				$("#device-commands-controlgroup").trigger("create");
+			};
+			AmbientControlData.getCommandsFor(pluginId, callback);
 		});
 		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 

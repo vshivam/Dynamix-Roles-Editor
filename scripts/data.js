@@ -87,25 +87,31 @@ AmbientControlData = {
                   "org.ambientdynamix.contextplugins.gamepadfeature",
                   "org.ambientdynamix.contextplugins.phonecontext"],
 
-  getCommandsFor : function(pluginId){
+  load : function() {
     var that = this;
-    console.log(pluginId);
+    $.each(that.plugin_ids, function(index, id){
+      that.getCommandsFor(id);
+    });
+  }, 
+
+  /** if the commands have not been loaded from the server previously, 
+  it'll be loaded when requested hence the callback **/
+  getCommandsFor : function(pluginId, callback){
+    var that = this;
     if (this.commandsMap === undefined || this.commandsMap[pluginId] === undefined) {
       var url = this.server_url.replace('%s', pluginId);
-      console.log(url);
       $.ajax({
           url : url,
           success : function(data) {
             data = JSON.parse(data);
-            console.log(data);
               var controls = [];
 
               if (that.commandsMap === undefined) {
+                  console.log('commands map is not defined');
                   that.commandsMap = {};
               }
 
               $.each(data.inputList, function(index, input){
-                console.log(input.mandatoryControls);
                 controls = controls.concat(input.mandatoryControls);
               });
 
@@ -114,14 +120,13 @@ AmbientControlData = {
               controls = $.grep(controls, function(v, k){
                 return $.inArray(v ,controls) === k;
               });
-
-              that.commandsMap[pluginId] = controls;
+              console.log(controls);
+              callback(controls);
           },
-          async : false, 
+          async : true, 
           cache: false
       });
     };
-    return this.commandsMap[pluginId];
   }, 
 
   getDevicesFor : function(pluginId){
