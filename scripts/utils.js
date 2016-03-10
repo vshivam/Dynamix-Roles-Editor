@@ -235,18 +235,6 @@ DeviceUtils = {
  			that.deleteDevice(pluginId, deviceId);
  			parentListitem.remove();
 		});
-
-		$('button.add-new-device').on('click', function(event){
- 			var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
- 			that.addNewDevice(pluginId);
-		});
-
-		$('button.revoke-access').on('click', function(event){
-			var parentCollapsible = $(this).closest('li.plugin-listitem');
-			var pluginId = parentCollapsible.data('pluginid');
-			parentCollapsible.remove();
-			that.revokeFullAccess(pluginId);
-		});
 	}, 
 
 	updateHeader : function(name) {
@@ -261,18 +249,18 @@ DeviceUtils = {
 		var pluginListitemTemplate = Handlebars.getTemplate('plugin-listitem');
 		var pluginListitemCompiledHtml = pluginListitemTemplate({plugin: plugin});
 		$('#plugins-list').append(pluginListitemCompiledHtml);
-	 		for(var key in plugin.deviceProfiles) {
-				if(plugin.deviceProfiles.hasOwnProperty(key)) {
-					var deviceProfile = plugin.deviceProfiles[key];
-					var device = {'name' : key, 'id' : key}
-					that.addDeviceToPlugin(device, plugin.pluginId);
+	 		for(var device_id in plugin.deviceProfiles) {
+				if(plugin.deviceProfiles.hasOwnProperty(device_id)) {
+					var deviceProfile = plugin.deviceProfiles[device_id];
+					that.addDeviceToPlugin(device_id, plugin.pluginId);
 				}
 	 		}
 		$('li.plugin-listitem.collapsible').collapsible();
 		$('#plugins-list').listview('refresh');
 	}, 
 
-	addDeviceToPlugin : function(device, pluginId) {
+	addDeviceToPlugin : function(device_id, pluginId) {
+		var device = {'name' : device_id, 'id' : device_id};
 		var elems = $('.device-list[data-pluginid="' + pluginId + '"]');
 		var deviceListitemTemplate = Handlebars.getTemplate('device-listitem');
 		var deviceListitemCompiledHtml = deviceListitemTemplate({device : device});
@@ -298,8 +286,14 @@ DeviceUtils = {
 		console.log("Edit device " + deviceId + " from " + pluginId + " for " + this.currentScopeId());
 	},
 
-	addNewDevice : function(pluginId) {
+	showAddNewDevicePopup : function(pluginId) {
+		var that = this;
 		console.log('Showing dialog for list of devices : ' + pluginId);
+
+		/*** Clear popup ui. It might have existing data if the popup was openend before ***/
+		$('#device-commands-controlgroup').controlgroup("container").empty();
+		$('#device-id-select').empty();
+
 		var deviceIdListitemTemplate = Handlebars.getTemplate('deviceid-listitem');
 		var deviceIds = AmbientControlData.getDevicesFor(pluginId);
 		$.each(deviceIds, function(index, deviceId){
@@ -308,25 +302,43 @@ DeviceUtils = {
 			$('#device-id-select').append(deviceIdListItemHtml);
 		});
 		$('#device-id-select').selectmenu('refresh');
-		
-		$('#device-id-select').change(function() {
-			$('#device-commands-controlgroup').find('.ui-controlgroup-controls ').empty();
-			var deviceId = $(this).val();
-			console.log(deviceId);
+
+		var updateListOfCommands = function(pluginId){
 			var deviceCommandListitemTemplate = Handlebars.getTemplate('command-listitem');
 			var callback = function(commands) {
 				$.each(commands, function(index, command_name){
-					var command = {'name' : command_name, 'selected' : false};
+					var command = {'name' : command_name, 'selected' : true};
 					var deviceCommandListitemHtml = deviceCommandListitemTemplate({command : command});
-					console.log(deviceCommandListitemHtml);
 					$('#device-commands-controlgroup').controlgroup("container").append(deviceCommandListitemHtml);
 				});
-				$("#device-commands-controlgroup").trigger("create");
+				$("#device-commands-controlgroup").enhanceWithin().controlgroup( "refresh" );
 			};
 			AmbientControlData.getCommandsFor(pluginId, callback);
+		};
+
+		updateListOfCommands(pluginId);
+		
+		$('#addDeviceToAccessControlForm').one('submit', function(e){
+			e.preventDefault();
+			var deviceId = $("#device-id-select").val();
+			var data = $("#device-commands-controlgroup :input").serializeArray();
+			var approved_commands = [];
+			$.each(data, function(index, command){
+				if(command.value == "on"){
+					approved_commands.push(command.name);
+				}
+			});
+			console.log("Approving " + approved_commands +" for device " + deviceId);
+			console.log("for " + that.currentScopeId() + " \n " + pluginId );
+	 		that.addDeviceToPlugin(deviceId, pluginId);
+	 		$('#addDeviceToAccessControlPopup').popup('close');
 		});
 		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 
+
+	showEditDevicePopup : function() {
+
+	},
 
 	revokeFullAccess : function(pluginId) {
 		console.log(pluginId);

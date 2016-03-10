@@ -134,7 +134,8 @@ AmbientControlData = {
     var devices = {
       "org.ambientdynamix.contextplugins.hueplugin" : ["Max Lifx", "Nirandika Lifx"], 
       "org.ambientdynamix.contextplugins.wemoplugin" : ["WeMo Switch", "Wemo Motion"], 
-      "org.ambientdynamix.contextplugins.spheronative" : ["Sphero", "Ollie"]
+      "org.ambientdynamix.contextplugins.spheronative" : ["Sphero", "Ollie"], 
+      "org.ambientdynamix.contextplugins.ambientmedia" : ["Apple TV", "Chromecast"]
     };
 
     return devices[pluginId];

@@ -2,6 +2,7 @@ $(document).on("pageinit", '#roles-page', function(){
 	
 	RoleUtils.loadDataIntoView();
 
+	/*** Form Submission Listeners ***/
 	$('#addNewRoleForm').on('submit', function(e){
 		var data = $("#addNewRoleForm :input").serializeArray();
 		var roleName = data[0].value;
@@ -34,25 +35,32 @@ $(document).on("pageinit", '#roles-page', function(){
  		$('#addAccessControlPopup').popup('close');
 	});
 
-/*
-	$(document).one("pagebeforeshow","#scopes-page",function(event){ 
-		console.log("pagebeforeshow scopes page");
-		ScopeUtils.reset();
-	});
-*/
+	/*** Page change Listeners ***/
 	$(document).one("pageshow","#scopes-page",function(event){ 
 		console.log("pageshow scopes page");
 		ScopeUtils.loadDataIntoView();
 	});
-/*
-	$(document).on("pagebeforeshow","#devices-page",function(event){ 
-		console.log("pagebeforeshow devices page");
-		DeviceUtils.reset();
-	});
-*/
+
 	$(document).one("pageshow","#devices-page",function(event){ 
 		console.log("pageshow devices page");
 		DeviceUtils.loadDataIntoView();
+	});
+
+
+	$('#plugins-list').on('click', 'button.add-new-device', function(){
+			var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
+			console.log(pluginId);
+			DeviceUtils.showAddNewDevicePopup(pluginId);
+	});
+
+	/*** Button click listeners***/
+	
+
+	$('button.revoke-access').on('click', function(){
+		var parentCollapsible = $(this).closest('li.plugin-listitem');
+		var pluginId = parentCollapsible.data('pluginid');
+		parentCollapsible.remove();
+		that.revokeFullAccess(pluginId);
 	});
 });
 
