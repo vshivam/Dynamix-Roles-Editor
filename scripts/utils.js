@@ -93,11 +93,11 @@ var ScopeUtils = {
 	}, 
 
 	loadDataIntoView : function() {
-		this.reset();
-		var currentRoleName = SharedData["currentRoleName"];
-		
+
 		/*** Clear pre existing html from the page ***/
 		this.reset();
+
+		var currentRoleName = SharedData["currentRoleName"];
 
 		/*** Update html data ***/
 		this.updateHeader(currentRoleName);
@@ -114,12 +114,17 @@ var ScopeUtils = {
 
 	updateScopesList : function(currentRoleName) {
 		var that = this;
+		if(Data.scopesForRole[currentRoleName] === undefined) {
+			Data["scopesForRole"][currentRoleName] = [];
+		}
 		var scopes = Data.scopesForRole[currentRoleName];
-
-		$.each(scopes, function(index, scopeId){
-			var scopeName = Data.accessScopes[scopeId]["name"];
-			that.addNewScope(scopeName, scopeId);
-		});
+		if( scopes !== undefined) {
+			$.each(scopes, function(index, scopeId){
+				var scopeName = Data.accessScopes[scopeId]["name"];
+				var compiledHtml = that.getHtmlFromNameAndId(scopeName, scopeId);
+				that.appendListItem(compiledHtml);
+			});
+		}
 		
 		$('#scopes-list').on('click', 'a.edit-scope', function(event){
 			that.openScopeEditor($(this).data('id'));
@@ -136,15 +141,20 @@ var ScopeUtils = {
 		var currentRoleName = SharedData["currentRoleName"];
 		var scopes = Data.scopesForRole[currentRoleName];
 		var addExistingScopeListitemTemplate = Handlebars.getTemplate('add-existing-scope-listitem');
+		var count = 0;
 		for(var key in Data.accessScopes) {
 			//Only show scopes which don't already exist for this role
 			if(Data.accessScopes.hasOwnProperty(key) && scopes.indexOf(key) == -1) {
 				var accessScope = Data.accessScopes[key];
 				var html = addExistingScopeListitemTemplate(accessScope)
 				$('#scopes-select').append(html);
+				count = count + 1;
 			}
 		}
-		$('#scopes-select').selectmenu('refresh');
+		console.log("count : " + count);
+		if(count != 0){
+			$('#scopes-select').selectmenu('refresh');
+		}
 	},
 
 	addNewScope : function(name, id) {
@@ -187,6 +197,7 @@ var ScopeUtils = {
 		var result = Data["scopesForRole"][role].splice(index, 1);
 		$('li.scopes-listitem#'+scope).remove();
 		this.refreshAddNewScopesPopup();
+		Db.updateAll();
 	}, 
 
 	guid : function() {

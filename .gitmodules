@@ -1,0 +1,3 @@
+[submodule "scripts/dynamix"]
+	path = scripts/dynamix
+	url = https://vshivam@bitbucket.org/dynamixdevelopers/dynamix-2.x-javascript-apis.git
