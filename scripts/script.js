@@ -1,7 +1,5 @@
 $(document).on("pageinit", '#roles-page', function(){
 	
-	RoleUtils.loadDataIntoView();
-
 	/*** Form Submission Listeners ***/
 	$('#addNewRoleForm').on('submit', function(e){
 		var data = $("#addNewRoleForm :input").serializeArray();
@@ -21,8 +19,11 @@ $(document).on("pageinit", '#roles-page', function(){
 		e.preventDefault();
 		var data = $("#addNewScopeForm :input").serializeArray();
 		var scopename = data[0].value;
+		console.log('Submitting add new scope form data : ' + scopename);
  		ScopeUtils.addNewScope(scopename);
  		ScopeUtils.refreshAddNewScopesPopup();
+ 		$('#addScopePopup').popup('close');
+ 		Db.updateAll();
 	});
 
 	$('#addAccessControlForm').on('submit', function(e){
@@ -64,5 +65,7 @@ $(document).on("pageinit", '#roles-page', function(){
 			parentCollapsible.remove();
 			that.revokeFullAccess(pluginId);
 	});
+
+	DynamixUtils.bindDynamix();
 });
 

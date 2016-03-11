@@ -1,3 +1,5 @@
+
+/**
 var Data = {
  "scopesForRole": {
    "Guest": [
@@ -72,7 +74,7 @@ var Data = {
    "Admin"
  ]
 };
-
+**/
 AmbientControlData = {
   "server_url" : "http://192.168.1.118:8080/ControlProfileServer-1.0.0/PluginControlDescription/ids/%s?format=json",
   "plugin_ids" : ["org.ambientdynamix.contextplugins.ambientmedia",

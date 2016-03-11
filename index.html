@@ -4,15 +4,23 @@
         <title>Ambient Dynamix Roles Editor</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link id="jquery-ui-stylesheet" rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/overcast/jquery-ui.css">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" href="styles/styles.css" />
 
         <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        
         <script type="text/javascript" src="scripts/data.js"></script>
         <script src="scripts/utils.js"></script>
         <script type="text/javascript" src="scripts/script.js"></script>
+        <script type="text/javascript" src="scripts/dynamix/libs/forge.min.js"></script>
+        <script type="text/javascript" src="scripts/dynamix/dynamix.js"></script>
+        <script type="text/javascript" src="scripts/dynamix/dynamixPairing.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+        <script type="text/javascript" src="scripts/dynamixUtils.js"></script>
 
     </head>
     <body>
@@ -30,7 +38,7 @@
                 <ul data-role="listview" data-inset="true" id="roles-list">
                     <!-- 
                         Here goes the list of roles 
-                        -->
+                    -->
                 </ul>
                 <div data-role="popup" id="addNewRolePopup" data-theme="b">
                     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
