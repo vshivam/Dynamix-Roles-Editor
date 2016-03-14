@@ -152,9 +152,7 @@ var ScopeUtils = {
 			}
 		}
 		console.log("count : " + count);
-		if(count != 0){
-			$('#scopes-select').selectmenu('refresh');
-		}
+		$('#scopes-select').selectmenu('refresh');
 	},
 
 	addNewScope : function(name, id) {
@@ -213,6 +211,11 @@ var ScopeUtils = {
 
 DeviceUtils = {
 
+	reset : function() {
+		$('#devices-header').remove();
+		$('#plugins-list').empty();
+	}, 
+
 	getScope : function() {
 		return Data["accessScopes"][this.currentScopeId()];
 	},
@@ -226,6 +229,7 @@ DeviceUtils = {
 	},
 
 	loadDataIntoView : function() {
+		this.reset();
 		var that = this;
 		var scope = this.getScope();
 		this.updateHeader(scope.name);
@@ -258,6 +262,7 @@ DeviceUtils = {
  			var pluginId = $(this).closest('ul.device-list').data('pluginid');
  			that.deleteDevice(pluginId, deviceId);
  			parentListitem.remove();
+ 			Db.updateAll();
 		});
 	}, 
 
@@ -369,6 +374,7 @@ DeviceUtils = {
 					return false;
 				}
 			});
+			Db.updateAll();
 	 		$('#editDeviceAccessPopup').popup('close');
 		});
 		$('#editDeviceAccessPopup').popup('open');
@@ -433,6 +439,7 @@ DeviceUtils = {
 				}
 			});
 	 		$('#addDeviceToAccessControlPopup').popup('close');
+			Db.updateAll();
 		});
 		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 
@@ -452,11 +459,6 @@ DeviceUtils = {
 			}
 		});
 	},
-
-	reset : function() {
-		$('#devices-header').remove();
-		$('#plugins-list').empty();
-	}, 
 
 	isEmptyObject : function(obj) {
 		for(var prop in obj) {

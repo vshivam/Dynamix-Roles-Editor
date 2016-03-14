@@ -13,6 +13,8 @@ $(document).on("pageinit", '#roles-page', function(){
 		var name = $('#scopes-select option:selected').data("name");
  		ScopeUtils.addNewScope(name, id);
  		ScopeUtils.refreshAddNewScopesPopup();
+		$('#addScopePopup').popup('close');
+		Db.updateAll();
 	});
 
 	$('#addNewScopeForm').on('submit', function(e){
@@ -35,10 +37,12 @@ $(document).on("pageinit", '#roles-page', function(){
  		DeviceUtils.addNewPluginListitem(plugin);
  		var scope = DeviceUtils.getScope();
  		console.log(scope["accessProfiles"]);
- 		var accessProfile = {name : accessControlName, pluginId : pluginId, deviceProfiles : {}};
+ 		var accessProfile = {name : accessControlName, pluginId : id, deviceProfiles : {}};
  		scope["accessProfiles"].push(accessProfile);
  		console.log(scope["accessProfiles"]);
  		$('#addAccessControlPopup').popup('close');
+ 		Db.updateAll();
+
 	});
 
 	/*** Page change Listeners ***/
