@@ -67,7 +67,8 @@ $(document).on("pageinit", '#roles-page', function(){
 			var parentCollapsible = $(this).closest('li.plugin-listitem');
 			var pluginId = parentCollapsible.data('pluginid');
 			parentCollapsible.remove();
-			that.revokeFullAccess(pluginId);
+			DeviceUtils.revokeFullAccess(pluginId);
+			Db.updateAll();
 	});
 
 	DynamixUtils.bindDynamix();

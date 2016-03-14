@@ -248,13 +248,13 @@ DeviceUtils = {
 		});
 
 
-		$('.device-list').on('click', 'a.edit-device' ,function(event) {
+		$('#plugins-list').on('click', 'a.edit-device' ,function(event) {
 			var deviceId = $(this).closest('li.device-listitem').data('deviceid');;
  			var pluginId = $(this).closest('ul.device-list').data('pluginid');
  			that.editDevice(pluginId, deviceId);
 		});
 
-		$('.device-list').on('click', 'a.delete-device' ,function(event) {
+		$('#plugins-list').on('click', 'a.delete-device' ,function(event) {
 			/*** Retrieve device id from the parent li **/
 			var parentListitem = $(this).closest('li.device-listitem');
 			var deviceId = parentListitem.data('deviceid');;
@@ -349,10 +349,10 @@ DeviceUtils = {
 		updateListOfCommands(pluginId, deviceId);
 		
 		/*** Adding a listener using _one_ so that the listener doesn't get duplicated ***/
-		$('#addDeviceToAccessControlForm').one('submit', function(e){
+		$('#editDeviceAccessForm').one('submit', function(e){
 			e.preventDefault();
-			var deviceId = $("#device-id-select").val();
-			var data = $("#device-commands-controlgroup :input").serializeArray();
+			var data = $("#edit-device-commands-controlgroup :input").serializeArray();
+			console.log(data);
 			var approved_commands = [];
 			$.each(data, function(index, command){
 				if(command.value == "on"){
@@ -361,14 +361,14 @@ DeviceUtils = {
 			});
 			console.log("Approving " + approved_commands +" for device " + deviceId);
 			console.log("for " + that.currentScopeId() + " \n " + pluginId );
-	 		that.addDeviceToPlugin(deviceId, pluginId);
 	 		/*** Adding data to the Data object ***/
 	 		var accessProfiles = that.getAccessProfiles();
 	 		$.each(accessProfiles, function(index, plugin) {
 				if(plugin.pluginId == pluginId) {
-					if(plugin.deviceProfiles[deviceId] === undefined){
-						plugin.deviceProfiles[deviceId] = [];
-					}
+					/** Since we are editing a device, it should pre exist in deviceProfiles***/
+					console.log(plugin.deviceProfiles[deviceId]);
+					plugin.deviceProfiles[deviceId] = [];
+					console.log(plugin.deviceProfiles[deviceId]);
 					plugin.deviceProfiles[deviceId] = plugin.deviceProfiles[deviceId].concat(approved_commands);
 					console.log(plugin.deviceProfiles[deviceId]);
 					return false;
