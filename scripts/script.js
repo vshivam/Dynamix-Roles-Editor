@@ -1,4 +1,6 @@
 $(document).on("pageinit", '#roles-page', function(){
+
+	AmbientControlData.load();
 	
 	/*** Form Submission Listeners ***/
 	$('#addNewRoleForm').on('submit', function(e){
