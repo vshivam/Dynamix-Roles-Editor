@@ -106,30 +106,42 @@ AmbientControlData = {
           url : url,
           success : function(data) {
             data = JSON.parse(data);
-              var controls = [];
+            console.log(data);
+            var controls = [];
 
-              if (that.commandsMap === undefined) {
-                  console.log('commands map is not defined');
-                  that.commandsMap = {};
-              }
+            if (that.commandsMap === undefined) {
+                that.commandsMap = {};
+            }
 
-              $.each(data.inputList, function(index, input){
-                controls = controls.concat(input.mandatoryControls);
-              });
+            $.each(data.inputList, function(index, input){
+              controls = controls.concat(input.mandatoryControls);
+            });
 
-              /** Remove duplicate commands **/
-              /** Refer : http://stackoverflow.com/a/11455508/1239966 **/
-              controls = $.grep(controls, function(v, k){
-                return $.inArray(v ,controls) === k;
-              });
-              console.log(controls);
-              callback(controls);
+            if(data.optionalInputList != undefined){
+              controls = controls.concat(data.optionalInputList);
+            }
+
+            var uniqueCommands = [];
+            $.each(controls, function(i, el){
+                if($.inArray(el, uniqueCommands) === -1) uniqueCommands.push(el);
+            });
+
+            that.commandsMap[pluginId] = uniqueCommands;
+
+            if(callback !== undefined){
+              callback(uniqueCommands);
+            }
           },
           async : true, 
           cache: false
       });
-    };
-  }, 
+    } else {
+        if(callback != undefined) {
+          console.log('Commands have been preloaded');
+          callback(this.commandsMap[pluginId]);
+        }
+    }
+  },
 
   getDevicesFor : function(pluginId){
 
