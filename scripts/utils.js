@@ -58,6 +58,7 @@ var RoleUtils = {
 
 	shareViaQRCode : function(name) {
 		console.log("Share Via QR Code : " + name);
+		DynamixUtils.associateNewRole(name);
 	},
 
 	addNewRole : function(name) {

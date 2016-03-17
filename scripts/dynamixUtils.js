@@ -102,6 +102,23 @@
             }
         };
         Dynamix.createContextHandler(createNewHandlerCallback);
+    }, 
+
+    associateNewRole : function(roleName) {
+        var handler = this.getContextHandler();
+        var roleTokenString = (PairingUtils.generateRandomInt(100000000000, 999999999999)).toString();
+        console.log("roleToken : " + roleTokenString);
+        var configuredContextRequestCallback = function(status, result){
+            switch(status){
+                case Dynamix.Enums.SUCCESS:
+                Data = JSON.parse(result.ACCESS_PROFILES);
+                PairingUtils.showRoleSharingBarcode(roleTokenString);
+                break;
+            }
+        };
+        handler.configuredContextRequest("PUT", "org.ambientdynamix.contextplugins.guigeneration",  
+                                    "org.ambientdynamix.contextplugins.guigeneration.accessprofiles", 
+                                    {params : {ACCESS_TOKEN : "ADMIN", OPERATION : "PRIVILEGE", ROLE : roleName, TOKEN : roleTokenString}, callback : configuredContextRequestCallback});
     }    
 };
 
