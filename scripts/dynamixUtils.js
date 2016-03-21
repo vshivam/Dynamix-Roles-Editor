@@ -13,7 +13,7 @@
                     that.openDynamixSession();
                     break;
                 case Dynamix.Enums.BIND_ERROR :
-                    Dynamix.bind(bindListener)
+                    console.log("BIND_ERROR : " + status);
                     break;
                 case Dynamix.Enums.UNBOUND :
                     break;
