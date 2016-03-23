@@ -146,10 +146,10 @@ AmbientControlData = {
   getDevicesFor : function(pluginId){
 
     var devices = {
-      "org.ambientdynamix.contextplugins.hueplugin" : ["Max Lifx", "Nirandika Lifx"], 
+      "org.ambientdynamix.contextplugins.hueplugin" : ["Max Lifx", "Shivam"], 
       "org.ambientdynamix.contextplugins.wemoplugin" : ["WeMo Switch", "Wemo Motion"], 
       "org.ambientdynamix.contextplugins.spheronative" : ["Sphero", "Ollie"], 
-      "org.ambientdynamix.contextplugins.ambientmedia" : ["Apple TV", "Chromecast"]
+      "org.ambientdynamix.contextplugins.ambientmedia" : ["c8d415217a817cbbcd9246cf0d3bbda", "Chromecast"]
     };
 
     return devices[pluginId];
