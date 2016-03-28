@@ -149,7 +149,7 @@ AmbientControlData = {
       "org.ambientdynamix.contextplugins.hueplugin" : ["Max Lifx", "Shivam"], 
       "org.ambientdynamix.contextplugins.wemoplugin" : ["WeMo Switch"], 
       "org.ambientdynamix.contextplugins.spheronative" : ["Sphero", "Ollie"], 
-      "org.ambientdynamix.contextplugins.ambientmedia" : ["Apple TV"]
+      "org.ambientdynamix.contextplugins.ambientmedia" : [""] // This is a hack since the Ambient Media plugin doesn't know how to handle device ids yet. 
     };
 
     return devices[pluginId];
