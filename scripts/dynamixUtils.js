@@ -1,5 +1,29 @@
  DynamixUtils = {
 
+    getPairingCode : function(){
+        function getUrlParameter(paramName) {
+            var sPageURL = window.location.search.substring(1);
+            if(sPageURL.slice(-1) == '/'){
+                sPageURL = sPageURL.slice(0, -1);
+            }
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == paramName) {
+                    return sParameterName[1];
+                }
+            }
+        }  
+
+        var pairingCode = null;
+        if(PairingUtils.pairingCode != ""){
+            pairingCode = PairingUtils.pairingCode;
+        }else {
+            pairingCode = getUrlParameter('pairingCode');
+        }
+        return pairingCode;
+    },
+
     getContextHandler : function() {
         return this.contextHandler;
     }, 
@@ -85,9 +109,10 @@
                                     }
                                 };
 
+                                var pairingCode = that.getPairingCode();
                                 handler.configuredContextRequest("GET", "org.ambientdynamix.contextplugins.guigeneration",  
                                     "org.ambientdynamix.contextplugins.guigeneration.accessprofiles", 
-                                    {params : {ACCESS_TOKEN : "ADMIN"}, callback : configuredContextRequestCallback});
+                                    {params : {ACCESS_TOKEN : pairingCode}, callback : configuredContextRequestCallback});
                                 break;
                             case Dynamix.Enums.FAILURE:
                                 console.log("Context support was not approved for org.ambientdynamix.contextplugins.guigeneration");
@@ -104,7 +129,7 @@
         Dynamix.createContextHandler(createNewHandlerCallback);
     }, 
 
-    associateNewRole : function(roleName) {
+    associateNewRole : function(roleName, type) {
         var handler = this.getContextHandler();
         var roleTokenString = (PairingUtils.generateRandomInt(100000000000, 999999999999)).toString();
         console.log("roleToken : " + roleTokenString);
@@ -112,14 +137,26 @@
             switch(status){
                 case Dynamix.Enums.SUCCESS:
                 Data = JSON.parse(result.ACCESS_PROFILES);
-                PairingUtils.showRoleSharingBarcode(roleTokenString);
+                if(type == 'nfc'){
+                    console.log('initiating role sharing via nfc');
+                } else if(type == 'qr'){
+                    PairingUtils.showRoleSharingBarcode(roleTokenString);
+                }
                 break;
             }
         };
         handler.configuredContextRequest("PUT", "org.ambientdynamix.contextplugins.guigeneration",  
-                                    "org.ambientdynamix.contextplugins.guigeneration.accessprofiles", 
-                                    {params : {ACCESS_TOKEN : "ADMIN", OPERATION : "PRIVILEGE", ROLE : roleName, TOKEN : roleTokenString}, callback : configuredContextRequestCallback});
-    }    
+                                    "org.ambientdynamix.contextplugins.guigeneration.accessprofiles",{
+                                        params : {
+                                            ACCESS_TOKEN : this.getPairingCode(), 
+                                            OPERATION : "PRIVILEGE", 
+                                            ROLE : roleName, 
+                                            TOKEN : roleTokenString, 
+                                            SHARE_TYPE : type
+                                        }, 
+                                        callback : configuredContextRequestCallback
+                                    });
+     }    
 };
 
 Db = {

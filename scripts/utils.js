@@ -54,11 +54,12 @@ var RoleUtils = {
 
 	shareViaNfc : function(name) {
 		console.log("Share via NFC : " + name);
+		DynamixUtils.associateNewRole(name, 'nfc');
 	},
 
 	shareViaQRCode : function(name) {
 		console.log("Share Via QR Code : " + name);
-		DynamixUtils.associateNewRole(name);
+		DynamixUtils.associateNewRole(name, 'qr');
 	},
 
 	addNewRole : function(name) {
