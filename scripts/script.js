@@ -4,9 +4,12 @@ $(document).on("pageinit", '#roles-page', function(){
 	
 	/*** Form Submission Listeners ***/
 	$('#addNewRoleForm').on('submit', function(e){
+		e.preventDefault();
 		var data = $("#addNewRoleForm :input").serializeArray();
 		var roleName = data[0].value;
 		RoleUtils.addNewRole(roleName);
+		$('#addNewRolePopup').popup('close');
+		Db.updateAll();
 	});
 
 	$('#addExistingScopeForm').on('submit', function(e){

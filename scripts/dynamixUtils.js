@@ -175,7 +175,7 @@ Db = {
             handler.configuredContextRequest("PUT", "org.ambientdynamix.contextplugins.guigeneration",  
                 "org.ambientdynamix.contextplugins.guigeneration.accessprofiles", {
                     params : {
-                        ACCESS_TOKEN : "ADMIN", 
+                        ACCESS_TOKEN : DynamixUtils.getPairingCode(), 
                         OPERATION : "UPDATE", 
                         DATA : JSON.stringify(Data)
                     },
