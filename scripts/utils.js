@@ -446,10 +446,6 @@ DeviceUtils = {
 		$('#addDeviceToAccessControlPopup').popup('open');
 	}, 
 
-	showEditDevicePopup : function() {
-
-	},
-
 	revokeFullAccess : function(pluginId) {
 		console.log(pluginId);
 		var accessProfiles = Data["accessScopes"][SharedData.currentScopeId]["accessProfiles"];
