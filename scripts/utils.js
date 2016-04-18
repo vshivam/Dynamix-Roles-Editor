@@ -103,7 +103,6 @@ var RoleUtils = {
 var ScopeUtils = {
 
 	reset : function() {
-		$('#scopes-header').remove();
 		$('#scopes-list').empty();
 	}, 
 
@@ -121,10 +120,14 @@ var ScopeUtils = {
 	},
 
 	updateHeader : function(name) {
+		/**
 		var scopesHeaderTemplate = Handlebars.getTemplate('scopes-page-header');
 		var scopesHeaderCompiledHtml = scopesHeaderTemplate(name);
 		$('#scopes-page').prepend(scopesHeaderCompiledHtml);
 		$('#scopes-page').enhanceWithin();
+		**/
+		console.log(name);
+		$('span#role-name').text(name);
 	},
 
 	updateScopesList : function(currentRoleName) {
@@ -134,6 +137,7 @@ var ScopeUtils = {
 		}
 		var scopes = Data.scopesForRole[currentRoleName];
 		if( scopes !== undefined) {
+			that.appendListItem('<li data-role="list-divider"> Current Scopes </li>');
 			$.each(scopes, function(index, scopeId){
 				var scopeName = Data.accessScopes[scopeId]["name"];
 				var compiledHtml = that.getHtmlFromNameAndId(scopeName, scopeId);
@@ -227,7 +231,7 @@ var ScopeUtils = {
 DeviceUtils = {
 
 	reset : function() {
-		$('#devices-header').remove();
+		// $('#devices-header').remove();
 		$('#plugins-list').empty();
 	}, 
 
@@ -249,6 +253,8 @@ DeviceUtils = {
 		var scope = this.getScope();
 		this.updateHeader(scope.name);
 		
+		$('#plugins-list').append('<li data-role="list-divider"> Current Devices </li>');
+
 		$.each(scope.accessProfiles, function(index, plugin){
 			that.addNewPluginListitem(plugin);
 		});
@@ -282,10 +288,11 @@ DeviceUtils = {
 	}, 
 
 	updateHeader : function(name) {
-		var devicesHeaderTemplate = Handlebars.getTemplate('devices-page-header');
-		var devicesHeaderCompiledHtml = devicesHeaderTemplate(name);
-		$('#devices-page').prepend(devicesHeaderCompiledHtml);
-		$('#devices-page').enhanceWithin();
+		// var devicesHeaderTemplate = Handlebars.getTemplate('devices-page-header');
+		// var devicesHeaderCompiledHtml = devicesHeaderTemplate(name);
+		// $('#devices-page').prepend(devicesHeaderCompiledHtml);
+		// $('#devices-page').enhanceWithin();
+		$('span#scope-name').text(name);
 	},
 
 	addNewPluginListitem : function(plugin) {

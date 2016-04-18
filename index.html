@@ -69,9 +69,17 @@
         </div>
         <!-- /page -->
         <div data-role="page" id="scopes-page" data-theme="b">
-            <!--
-                Here goes the header for the scopes page
-                -->
+            <div data-role="header">
+                <center>
+                <div class="center-wrapper">
+                    <img alt="logo" src="img/logo.png" /> 
+                    <span>Dashboard Designer</span>
+                </div>
+                </center>
+            </div>
+
+            <div style="margin: 1em 0 0 1em;">Edit Dashboard for role <span id="role-name"></span></div>
+
             <div role="main" class="ui-content">
                 <ul data-role="listview" data-inset="true" id="add-new-scope">
                     <li class="ui-body" data-icon="plus">
@@ -107,13 +115,21 @@
         </div>
         <!-- /page -->
         <div data-role="page" id="devices-page" data-theme="b">
-            <!-- 
-                Here goes the header for devices page 
-                -->
+            <div data-role="header">
+                <center>
+                <div class="center-wrapper">
+                    <img alt="logo" src="img/logo.png" /> 
+                    <span>Dashboard Designer</span>
+                </div>
+                </center>
+            </div>
+
+            <div style="margin: 1em 0 0 1em;">Edit devices for scope <span id="scope-name"></span></div>
+
             <div role="main" class="ui-content">
                 <ul data-role="listview" data-inset="true" id="add-new-plugin">
                     <li class="ui-body" data-icon="plus">
-                        <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Access Control</a>
+                        <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Devices</a>
                     </li>
                 </ul>
                 <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
