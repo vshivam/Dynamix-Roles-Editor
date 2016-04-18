@@ -36,3 +36,24 @@ html {
       padding: 10px;
       width: 100%;
 }
+
+.center-wrapper span {
+    vertical-align: middle;
+    line-height: 30px;
+    font-size: 1.5em;
+}
+.center-wrapper img {
+    vertical-align: middle;
+    height: 5em;
+    width: 5em;
+}
+
+.ui-icon-custom-share:after {
+      background-image: url("../img/share-icon.png");
+      background-size: 18px 18px;
+}
+
+.share-icon {
+      height: 48px;
+      width: 48px;
+}

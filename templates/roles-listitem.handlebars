@@ -1,9 +1,11 @@
-<li class="ui-field-contain" data-icon="edit">
-    <a href="#" class="edit-role " id="{{this}}">{{this}}</a>
+<li class="ui-field-contain">
+    <a href="#editRolePopup" data-rel="popup" 
+        class="edit-menu ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-edit ui-btn-icon-right ui-btn-b" data-transition="pop" 
+        id="{{this}}">{{this}}</a>
     <li class="ui-body">
         <fieldset class="ui-grid-b">
             <div class="ui-block-a">
-                <button type="submit" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left ui-mini share-qr" id="{{this}}">Delete</button>
+                 <img src="img/share-icon.png" class="share-icon">
             </div>
             <div class="ui-block-b">
                 <button type="submit" class="ui-btn ui-corner-all ui-icon-action ui-btn-icon-left ui-mini share-qr" id="{{this}}">QR</button>

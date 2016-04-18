@@ -24,16 +24,22 @@
     <body>
         <div data-role="page" id="roles-page" data-theme="b">
             <div data-role="header">
-                <h1>Hi there!</h1>
+                <center>
+                <div class="center-wrapper">
+                    <img alt="logo" src="img/logo.png" /> 
+                    <span>Dashboard Designer</span>
+                </div>
+                </center>
             </div>
             <!-- /header -->
             <div role="main" class="ui-content">
                 <ul data-role="listview" data-inset="true" id="add-new-role">
                     <li class="ui-body" data-icon="plus">
-                        <a href="#addNewRolePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Role</a>
+                        <a href="#addNewRolePopup" data-rel="popup" data-position-to="window" data-transition="pop">Create a New Dashboard</a>
                     </li>
                 </ul>
-                <ul data-role="listview" data-inset="true" id="roles-list">
+
+                <ul data-role="listview" data-inset="true" name="roles-list" id="roles-list">
                     <!-- 
                         Here goes the list of roles 
                     -->
@@ -46,6 +52,13 @@
                             <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                         </form>
                     </div>
+                </div>
+
+                <div data-role="popup" id="editRolePopup" data-theme="b">
+                    <ul data-role="listview" data-inset="true" style="min-width: 210px">
+                        <li> <a href="#" class="ui-icon-edit" id="edit-role"> Edit </a> </li>
+                        <li> <a href="#" class="ui-icon-delete" id="delete-role"> Delete </a> </li>
+                    </ul>
                 </div>
             </div>
             <!-- /content -->

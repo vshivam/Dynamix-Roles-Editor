@@ -23,14 +23,27 @@ var RoleUtils = {
 		var roleTemplate = Handlebars.getTemplate('roles-listitem');
 		var roles = this.getRoles();
 
+		this.appendListItem('<li data-role="list-divider"> Current Dashboards </li>');
+
 		$.each(roles, function(index, name){
-			var html = that.getHtmlFromName(name);
-			that.appendListItem(html);
+			if(name!='Admin'){
+				var html = that.getHtmlFromName(name);
+				that.appendListItem(html);					
+			}
+
 		});
 
-		$('#roles-list').on('click','a.edit-role', function(e){
+		$('#roles-list').on('click','a.edit-menu', function(e){
 			e.preventDefault();
-			RoleUtils.openRoleEditor(e.target.id);
+			var editRolePopup = $('#editRolePopup');
+			editRolePopup.popup("open");
+			var roleName = $(this).attr('id');
+			$('a#edit-role').one('click', function(e){
+				that.openRoleEditor(roleName);
+			});
+			$('a#delete-role').one('click', function(e){
+				that.deleteRole(roleName);
+			});
 		});
 
 		$('#roles-list').on('click', 'button.share-nfc', function(e){
