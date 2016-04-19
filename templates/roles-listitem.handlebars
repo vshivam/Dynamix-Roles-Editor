@@ -1,11 +1,16 @@
 <li class="ui-field-contain">
     <a href="#editRolePopup" data-rel="popup" 
         class="edit-menu ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-edit ui-btn-icon-right ui-btn-b" data-transition="pop" 
-        id="{{this}}">{{this}}</a>
+        data-position-to="origin" id="{{this}}">{{this}}</a>
     <li class="ui-body">
         <fieldset class="ui-grid-b">
             <div class="ui-block-a">
-                 <img src="img/share-icon.png" class="share-icon">
+                <center>
+                    <div style=" float:left; border-radius: 50%; width: 60px; height: 60px; background: #333;">
+                        <img src="img/share-icon.png" class="share-icon"> <br>
+                        <span> Share </span>
+                     </div>
+                 </center>
             </div>
             <div class="ui-block-b">
                 <button type="submit" class="ui-btn ui-corner-all ui-icon-action ui-btn-icon-left ui-mini share-qr" id="{{this}}">QR</button>
