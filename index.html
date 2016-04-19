@@ -64,7 +64,7 @@
             </div>
             <!-- /content -->
             <div data-role="footer" data-position="fixed">
-                <h4>Page Footer</h4>
+                <h4>&copy; 2016 Ambient Dynamix</h4>
             </div>
             <!-- /footer -->
         </div>
@@ -79,9 +79,10 @@
                 </center>
             </div>
 
-            <div style="margin: 1em 0 0 1em;">Edit Dashboard for role <span id="role-name"></span></div>
-
             <div role="main" class="ui-content">
+                <center>
+                    <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Edit Dashboard for role <span id="role-name"></span></h4>
+                </center>
                 <ul data-role="listview" data-inset="true" id="add-new-scope">
                     <li class="ui-body" data-icon="plus">
                         <a href="#addScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
@@ -110,7 +111,7 @@
                 </div>
             </div>
             <div data-role="footer" data-position="fixed">
-                <h4>Page Footer</h4>
+                <h4>&copy; 2016 Ambient Dynamix</h4>
             </div>
             <!-- /footer -->
         </div>
@@ -125,9 +126,18 @@
                 </center>
             </div>
 
-            <div style="margin: 1em 0 0 1em;">Edit devices for scope <span id="scope-name"></span></div>
-
             <div role="main" class="ui-content">
+
+                <ul data-role="listview" data-inset="true" id="add-graph">
+                    <li class="ui-body" data-icon="plus">
+                        <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop">Associate New Graph</a>
+                    </li>
+                </ul>
+
+                <center>
+                    <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Edit devices for scope <span id="scope-name"> </span></h4>
+                </center>
+
                 <ul data-role="listview" data-inset="true" id="add-new-plugin">
                     <li class="ui-body" data-icon="plus">
                         <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Devices</a>
@@ -137,7 +147,18 @@
             
                 </ul>
             </div>
-            <div data-role="popup" id="addAccessControlPopup" data-theme="b">
+            <div data-role="popup" id="addNewGraphPopup" data-theme="b">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="ui-field-contain">
+                    <form id="addNewGraphForm">
+                        <select id="graph-id-select">
+                            <!-- Here goes the list of plugin ids -->    
+                        </select>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Save </button>
+                    </form>
+                </div>
+            </div>
+            <div data-role="popup" id="addAccessControlPopup" data-theme="b" style="max-width: 80%;">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                 <div class="ui-field-contain">
                     <form id="addAccessControlForm">
@@ -182,7 +203,7 @@
                 </div>
             </div>         
             <div data-role="footer" data-position="fixed">
-                <h4>Page Footer</h4>
+                <h4>&copy; 2016 Ambient Dynamix</h4>
             </div>
             <!-- /footer -->
         </div>

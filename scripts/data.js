@@ -77,6 +77,7 @@ var Data = {
 **/
 AmbientControlData = {
   "server_url" : "http://192.168.1.118:8080/ControlProfileServer-1.0.0/PluginControlDescription/ids/%s?format=json",
+  "graph_url" : "http://192.168.1.118:8080/ControlProfileServer-1.0.0/ControlGraph?format=JSON",
   "plugin_ids" : ["org.ambientdynamix.contextplugins.ambientmedia",
                   "org.ambientdynamix.contextplugins.hueplugin",
                   "org.ambientdynamix.contextplugins.myoplugin",
@@ -89,10 +90,23 @@ AmbientControlData = {
                   "org.ambientdynamix.contextplugins.gamepadfeature",
                   "org.ambientdynamix.contextplugins.phonecontext"],
 
+  "graphs" : ["1", "2", "3"],
+
   load : function() {
     var that = this;
     $.each(that.plugin_ids, function(index, id){
       that.getCommandsFor(id);
+    });
+
+    $.ajax({
+      url : that.graph_url, 
+      success: function(data){
+        data = JSON.parse(data);
+        that.graphs = that.graphs.concat(data);
+        console.log(that.graphs);
+      }, 
+      async : true, 
+      cache : false
     });
   }, 
 

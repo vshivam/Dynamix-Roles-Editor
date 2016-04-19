@@ -233,6 +233,7 @@ DeviceUtils = {
 	reset : function() {
 		// $('#devices-header').remove();
 		$('#plugins-list').empty();
+		$('graph-id-select').empty();
 	}, 
 
 	getScope : function() {
@@ -252,6 +253,15 @@ DeviceUtils = {
 		var that = this;
 		var scope = this.getScope();
 		this.updateHeader(scope.name);
+
+		$.each(AmbientControlData.graphs, function(index, graph_name){
+			var graph = {'name' : graph_name};
+			var select = $('#graph-id-select');
+			var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
+			var graphIdListitemHtml = graphIdListitemTemplate({plugin : plugin});
+			select.append(graphIdListitemHtml);
+			select.selectmenu('refresh');
+		});
 		
 		$('#plugins-list').append('<li data-role="list-divider"> Current Devices </li>');
 
