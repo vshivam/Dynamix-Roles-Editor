@@ -33,17 +33,22 @@
             </div>
             <!-- /header -->
             <div role="main" class="ui-content">
-                <ul data-role="listview" data-inset="true" id="add-new-role">
-                    <li class="ui-body" data-icon="plus">
-                        <a href="#addNewRolePopup" data-rel="popup" data-position-to="window" data-transition="pop">Create a New Dashboard</a>
-                    </li>
-                </ul>
+                <fieldset class="custom">
+                    <legend>Welcome !</legend>
 
-                <ul data-role="listview" data-inset="true" name="roles-list" id="roles-list">
-                    <!-- 
-                        Here goes the list of roles 
-                    -->
-                </ul>
+                    <ul data-role="listview" data-inset="true" id="add-new-role">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addNewRolePopup" data-rel="popup" data-position-to="window" data-transition="pop">Create a New Dashboard</a>
+                        </li>
+                    </ul>
+
+                    <ul data-role="listview" data-inset="true" name="roles-list" id="roles-list">
+                        <!-- 
+                            Here goes the list of roles 
+                        -->
+                    </ul>
+                </fieldset>
+
                 <div data-role="popup" id="addNewRolePopup" data-theme="b">
                     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                     <div>
@@ -80,19 +85,25 @@
             </div>
 
             <div role="main" class="ui-content">
+                <!--
                 <center>
                     <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Edit Dashboard for role <span id="role-name"></span></h4>
                 </center>
-                <ul data-role="listview" data-inset="true" id="add-new-scope">
-                    <li class="ui-body" data-icon="plus">
-                        <a href="#addScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
-                    </li>
-                </ul>
-                <ul data-role="listview" data-inset="true" id="scopes-list">
-                    <!-- 
-                        Here goes the list of scopes 
-                        -->
-                </ul>
+                -->
+                <fieldset class="custom">
+                    <legend>Edit Dashboard for role <span id="role-name"></span> </legend>
+                    <ul data-role="listview" data-inset="true" id="add-new-scope">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addScopePopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Scope</a>
+                        </li>
+                    </ul>
+                    <ul data-role="listview" data-inset="true" id="scopes-list">
+                        <!-- 
+                            Here goes the list of scopes 
+                            -->
+                    </ul>
+                </fieldset>
+                
                 <div data-role="popup" id="addScopePopup" data-theme="b">
                     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                     <div class="ui-field-contain">
@@ -127,40 +138,53 @@
             </div>
 
             <div role="main" class="ui-content">
+                <fieldset class="custom">
+                    <legend> Flow graph associated with <span id="scope-name"> </span> </legend>
+                <!--
+                     <center>
+                        <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Ambient Flow graph for scope <span id="scope-name"> </span></h4>
+                    </center>
+                -->
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-body">
+                            <span id="current-graph-name">No graph selected yet </span>
+                        </li>
+                    </ul>
 
-                <ul data-role="listview" data-inset="true" id="add-graph">
-                    <li class="ui-body" data-icon="plus">
-                        <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop">Associate New Graph</a>
-                    </li>
-                </ul>
-
-                <center>
-                    <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Edit devices for scope <span id="scope-name"> </span></h4>
-                </center>
-
-                <ul data-role="listview" data-inset="true" id="add-new-plugin">
-                    <li class="ui-body" data-icon="plus">
-                        <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Devices</a>
-                    </li>
-                </ul>
-                <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
-            
-                </ul>
+                    <ul data-role="listview" data-inset="true" id="add-graph">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop">Update Ambient Flow graph</a>
+                        </li>
+                    </ul>
+                </fieldset>
+                <fieldset class="custom">
+                    <legend> Edit devices for scope <span id="scope-name"> </span> </legend>
+                    <!--
+                    <center>
+                        <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Edit devices for scope <span id="scope-name"> </span></h4>
+                    </center>
+                    -->
+                    <ul data-role="listview" data-inset="true" id="add-new-plugin">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addAccessControlPopup" data-rel="popup" data-position-to="window" data-transition="pop">Add New Devices</a>
+                        </li>
+                    </ul>
+                    <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
+                
+                    </ul>
+                </fieldset>
             </div>
             <div data-role="popup" id="addNewGraphPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <div class="ui-field-contain">
                     <form id="addNewGraphForm">
                         <select id="graph-id-select">
                             <!-- Here goes the list of plugin ids -->    
                         </select>
                         <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Save </button>
                     </form>
-                </div>
             </div>
-            <div data-role="popup" id="addAccessControlPopup" data-theme="b" style="max-width: 80%;">
+            <div data-role="popup" id="addAccessControlPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <div class="ui-field-contain">
                     <form id="addAccessControlForm">
                         <input type="text" name="access-control-name" placeholder="access control name">
                         <select name="plugin-id-select" id="plugin-id-select">
@@ -168,7 +192,6 @@
                         </select>
                         <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                     </form>
-                </div>
             </div>
             <div data-role="popup" id="addDeviceToAccessControlPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>

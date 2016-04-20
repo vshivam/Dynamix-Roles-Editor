@@ -90,7 +90,7 @@ AmbientControlData = {
                   "org.ambientdynamix.contextplugins.gamepadfeature",
                   "org.ambientdynamix.contextplugins.phonecontext"],
 
-  "graphs" : ["1", "2", "3"],
+  "graphs" : [],
 
   load : function() {
     var that = this;

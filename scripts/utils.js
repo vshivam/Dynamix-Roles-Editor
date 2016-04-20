@@ -258,7 +258,7 @@ DeviceUtils = {
 			var graph = {'name' : graph_name};
 			var select = $('#graph-id-select');
 			var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
-			var graphIdListitemHtml = graphIdListitemTemplate({plugin : plugin});
+			var graphIdListitemHtml = graphIdListitemTemplate({graph : graph});
 			select.append(graphIdListitemHtml);
 			select.selectmenu('refresh');
 		});
