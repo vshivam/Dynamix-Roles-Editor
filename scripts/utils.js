@@ -249,18 +249,21 @@ DeviceUtils = {
 	},
 
 	scene : {
-		init : function(){
-			this.model.init();
-			this.view.init();
-		}, 
 
 		model : {
 			init : function(){
+				if(typeof DeviceUtils.getScope()["scenes"] === 'undefined'){
+					DeviceUtils.getScope()["scenes"] = [];
+				}
 				this.scenes = DeviceUtils.getScope()["scenes"];
 			}, 
 
 			getScenes : function(){
 				return this.scenes;
+			}, 
+
+			addScene : function(name){
+				this.scenes.push(name);
 			}
 		}, 
 
@@ -287,8 +290,18 @@ DeviceUtils = {
 		}, 
 
 		octopus : {
+			init : function(){
+				DeviceUtils.scene.model.init();
+				DeviceUtils.scene.view.init();
+			}, 
+
 			getScenes : function(){
 				return DeviceUtils.scene.model.getScenes();
+			}, 
+
+			addScene : function(name){
+				DeviceUtils.scene.model.addScene(name);
+				DeviceUtils.scene.view.render();
 			}
 		}
 	},
@@ -299,7 +312,7 @@ DeviceUtils = {
 		var scope = this.getScope();
 		this.updateHeader(scope.name);
 
-		this.scene.init();
+		this.scene.octopus.init();
 
 		$.each(AmbientControlData.graphs, function(index, graph_name){
 			var graph = {'name' : graph_name};
