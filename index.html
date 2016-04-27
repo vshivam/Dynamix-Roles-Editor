@@ -139,23 +139,35 @@
 
             <div role="main" class="ui-content">
                 <fieldset class="custom">
-                    <legend> Flow graph associated with <span id="scope-name"> </span> </legend>
+                    <legend> Scenes for <span id="scope-name"> </span> </legend>
                 <!--
                      <center>
                         <h4 style="margin: 1em 0 0 1em; text-decoration: underline;">Ambient Flow graph for scope <span id="scope-name"> </span></h4>
                     </center>
-                -->
+
                     <ul data-role="listview" data-inset="true">
                         <li class="ui-body">
                             <span id="current-graph-name">No graph selected yet </span>
                         </li>
                     </ul>
-
-                    <ul data-role="listview" data-inset="true" id="add-graph">
-                        <li class="ui-body" data-icon="plus">
-                            <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop">Update Ambient Flow graph</a>
+                    
+                    <ul data-role="listview" data-inset="true" id="scenes-list">
+                        <li class="ui-body" data-icon="edit">
+                            <span id="current-graph-name">No graph selected yet </span>
                         </li>
                     </ul>
+
+                -->
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addNewScenePopup" data-rel="popup" data-position-to="window" data-transition="pop">Create New Scene </a>
+                        </li>
+                    </ul>
+
+                    <ul data-role="listview" data-inset="true" id="scenes-list">
+
+                    </ul>                    
+                    
                 </fieldset>
                 <fieldset class="custom">
                     <legend> Edit devices for scope <span id="scope-name"> </span> </legend>
@@ -173,6 +185,13 @@
                 
                     </ul>
                 </fieldset>
+            </div>
+            <div data-role="popup" id="addNewScenePopup" data-theme="b" data-overlay-theme="b">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <form id="addNewSceneForm">
+                    <input type="text" placeholder="scene name">
+                    <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
+                </form>
             </div>
             <div data-role="popup" id="addNewGraphPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
@@ -231,5 +250,24 @@
             <!-- /footer -->
         </div>
         <!-- /page -->
+
+        <div data-role="page" data-theme="b" id="scene-editor">
+            <div data-role="header">
+                <center>
+                <div class="center-wrapper">
+                    <img alt="logo" src="img/logo.png" /> 
+                    <span>Dashboard Designer</span>
+                </div>
+                </center>
+            </div>
+
+            <div role="main" class="ui-content">
+                
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <h4>&copy; 2016 Ambient Dynamix</h4>
+            </div>
+        </div>
     </body>
 </html>

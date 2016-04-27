@@ -248,11 +248,58 @@ DeviceUtils = {
 		return SharedData.currentScopeId;
 	},
 
+	scene : {
+		init : function(){
+			this.model.init();
+			this.view.init();
+		}, 
+
+		model : {
+			init : function(){
+				this.scenes = DeviceUtils.getScope()["scenes"];
+			}, 
+
+			getScenes : function(){
+				return this.scenes;
+			}
+		}, 
+
+		view : {
+
+			init : function(){
+				this.scenesList = $('#scenes-list');
+				this.render();
+			}, 
+
+			render : function() {
+				var that = this;
+				this.scenesList.empty();
+				this.scenesList.append('<li data-role="list-divider"> Current Scenes </li>');
+				var scenes = DeviceUtils.scene.octopus.getScenes();
+				$.each(scenes, function(index, scene){
+					var scene = {'name' : scene};
+					var template = Handlebars.getTemplate('scene-listitem');
+					var html = template({'scene' : scene});
+					that.scenesList.append();
+				});
+				this.scenesList.listview('refresh');
+			}
+		}, 
+
+		octopus : {
+			getScenes : function(){
+				return DeviceUtils.scene.model.getScenes();
+			}
+		}
+	},
+
 	loadDataIntoView : function() {
 		this.reset();
 		var that = this;
 		var scope = this.getScope();
 		this.updateHeader(scope.name);
+
+		this.scene.init();
 
 		$.each(AmbientControlData.graphs, function(index, graph_name){
 			var graph = {'name' : graph_name};
@@ -497,4 +544,19 @@ DeviceUtils = {
 		return true;
 	}
 
+};
+
+SceneEditor = {
+
+	model : {
+
+	}, 
+
+	view : {
+
+	}, 
+
+	octopus : {
+
+	}
 };
