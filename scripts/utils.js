@@ -283,7 +283,7 @@ DeviceUtils = {
 					var scene = {'name' : scene};
 					var template = Handlebars.getTemplate('scene-listitem');
 					var html = template({'scene' : scene});
-					that.scenesList.append();
+					that.scenesList.append(html);
 				});
 				this.scenesList.listview('refresh');
 			}

@@ -60,6 +60,15 @@ $(document).on("pageinit", '#roles-page', function(){
  		Db.updateAll();
 	});
 
+	$('#addNewSceneForm').on('submit', function(e){
+		e.preventDefault();
+		var sceneName = $('input#scene-name').val();
+		console.log(sceneName);
+		DeviceUtils.scene.octopus.addScene(sceneName);
+ 		$('#addNewScenePopup').popup('close');
+ 		// Db.updateAll();
+	});
+
 	/*** Page change Listeners ***/
 	$(document).on("pageshow","#scopes-page",function(event){ 
 		console.log("pageshow scopes page");
@@ -73,17 +82,17 @@ $(document).on("pageinit", '#roles-page', function(){
 
 
 	$('#plugins-list').on('click', 'button.add-new-device', function(){
-			var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
-			console.log(pluginId);
-			DeviceUtils.showAddNewDevicePopup(pluginId);
+		var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
+		console.log(pluginId);
+		DeviceUtils.showAddNewDevicePopup(pluginId);
 	});
 
 	$('#plugins-list').on('click', 'button.revoke-access', function(){
-			var parentCollapsible = $(this).closest('li.plugin-listitem');
-			var pluginId = parentCollapsible.data('pluginid');
-			parentCollapsible.remove();
-			DeviceUtils.revokeFullAccess(pluginId);
-			Db.updateAll();
+		var parentCollapsible = $(this).closest('li.plugin-listitem');
+		var pluginId = parentCollapsible.data('pluginid');
+		parentCollapsible.remove();
+		DeviceUtils.revokeFullAccess(pluginId);
+		Db.updateAll();
 	});
 
 	DynamixUtils.bindDynamix();
