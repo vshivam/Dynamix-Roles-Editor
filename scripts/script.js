@@ -69,18 +69,6 @@ $(document).on("pageinit", '#roles-page', function(){
  		Db.updateAll();
 	});
 
-	/*** Page change Listeners ***/
-	$(document).on("pageshow","#scopes-page",function(event){ 
-		console.log("pageshow scopes page");
-		ScopeUtils.loadDataIntoView();
-	});
-
-	$(document).on("pageshow","#devices-page",function(event){ 
-		console.log("pageshow devices page");
-		DeviceUtils.loadDataIntoView();
-	});
-
-
 	$('#plugins-list').on('click', 'button.add-new-device', function(){
 		var pluginId = $(this).closest('li.plugin-listitem').data('pluginid');
 		console.log(pluginId);
@@ -93,6 +81,19 @@ $(document).on("pageinit", '#roles-page', function(){
 		parentCollapsible.remove();
 		DeviceUtils.revokeFullAccess(pluginId);
 		Db.updateAll();
+	});
+
+	/*** Page change Listeners ***/
+	$(document).on("pageshow","#scopes-page",function(event){ 
+		ScopeUtils.loadDataIntoView();
+	});
+
+	$(document).on("pageshow","#devices-page",function(event){ 
+		DeviceUtils.loadDataIntoView();
+	});
+
+	$(document).on("pageshow","#scene-editor",function(event){ 
+		SceneEditor.octopus.init();
 	});
 
 	DynamixUtils.bindDynamix();

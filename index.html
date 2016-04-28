@@ -194,15 +194,6 @@
                     <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Create </button>
                 </form>
             </div>
-            <div data-role="popup" id="addNewGraphPopup" data-theme="b">
-                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                    <form id="addNewGraphForm">
-                        <select id="graph-id-select">
-                            <!-- Here goes the list of plugin ids -->    
-                        </select>
-                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Save </button>
-                    </form>
-            </div>
             <div data-role="popup" id="addAccessControlPopup" data-theme="b">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                     <form id="addAccessControlForm">
@@ -263,11 +254,32 @@
             </div>
 
             <div role="main" class="ui-content">
+                <fieldset class="custom">
+                    <legend> Graphs for scene <span id="scene-name"> </span> </legend>
+
+                    <ul data-role="listview" data-inset="true" id="add-new-graph">
+                        <li class="ui-body" data-icon="plus">
+                            <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop" data-overlay-theme="b">Add New Graph</a>
+                        </li>
+                    </ul>
+                    <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
                 
+                    </ul>
+                </fieldset>
             </div>
 
             <div data-role="footer" data-position="fixed">
                 <h4>&copy; 2016 Ambient Dynamix</h4>
+            </div>
+             <div data-role="popup" id="addNewGraphPopup" data-theme="b">
+                <center><h4>Select a graph</h4></center>
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <form id="addNewGraphForm">
+                        <select id="graph-id-select">
+                            <!-- Here goes the list of plugin ids -->    
+                        </select>
+                        <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"> Add </button>
+                    </form>
             </div>
         </div>
     </body>

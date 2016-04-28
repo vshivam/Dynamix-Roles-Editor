@@ -317,15 +317,6 @@ DeviceUtils = {
 		this.updateHeader(scope.name);
 
 		this.scene.octopus.init();
-
-		$.each(AmbientControlData.graphs, function(index, graph_name){
-			var graph = {'name' : graph_name};
-			var select = $('#graph-id-select');
-			var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
-			var graphIdListitemHtml = graphIdListitemTemplate({graph : graph});
-			select.append(graphIdListitemHtml);
-			select.selectmenu('refresh');
-		});
 		
 		$('#plugins-list').append('<li data-role="list-divider"> Current Devices </li>');
 
@@ -572,15 +563,40 @@ SceneEditor = {
 		},
 
 		getGraphs : function(){
-			return this.scene.sceneGraphs
+			return this.scene.sceneGraphs;
+		}, 
+
+		getCommands : function(){
+			return this.scene.commands;
 		}
 	}, 
 
 	view : {
+		init : function(){
+			this.graphsListLegend = $('span.scene-name');
+			this.render();
+			this.graphSelector = $('#graph-id-select');
+		},
 
+		render : function(){
+			var that = this;
+			
+			$.each(AmbientControlData.graphs, function(index, graph_name){
+				var graph = {'name' : graph_name};
+				var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
+				var graphIdListitemHtml = graphIdListitemTemplate({graph : graph});
+				that.graphSelector.append(graphIdListitemHtml);
+			});
+			that.graphSelector.selectmenu('refresh');
+			
+			this.graphsListLegend.text();
+		}
 	}, 
 
 	octopus : {
-
+		init : function(){
+			SceneEditor.view.init();
+			SceneEditor.model.init();
+		}
 	}
 };
