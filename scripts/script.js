@@ -66,7 +66,7 @@ $(document).on("pageinit", '#roles-page', function(){
 		console.log(sceneName);
 		DeviceUtils.scene.octopus.addScene(sceneName);
  		$('#addNewScenePopup').popup('close');
- 		// Db.updateAll();
+ 		Db.updateAll();
 	});
 
 	/*** Page change Listeners ***/

@@ -1,1 +1,9 @@
-<li class="ui-body" data-icon="edit" data-name="{{scene.name}}"><a href="#">{{scene.name}}</a></li>
+<li class="ui-body" data-name="{{scene.name}}">
+    <div class="custom-list-item">
+        {{scene.name}}
+        <span class="list-item-controls">
+        	<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-b ui-btn-inline edit-scene">></a>
+            <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline delete-scene"></a>
+        </span>
+    </div>
+</li>

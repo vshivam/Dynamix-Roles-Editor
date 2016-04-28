@@ -249,7 +249,6 @@ DeviceUtils = {
 	},
 
 	scene : {
-
 		model : {
 			init : function(){
 				if(typeof DeviceUtils.getScope()["scenes"] === 'undefined'){
@@ -263,12 +262,12 @@ DeviceUtils = {
 			}, 
 
 			addScene : function(name){
+				Data["scenes"][name] = {'name' : name, 'commands' : {}, 'sceneGraphs' : []};
 				this.scenes.push(name);
 			}
 		}, 
 
 		view : {
-
 			init : function(){
 				this.scenesList = $('#scenes-list');
 				this.render();
@@ -277,15 +276,16 @@ DeviceUtils = {
 			render : function() {
 				var that = this;
 				this.scenesList.empty();
-				this.scenesList.append('<li data-role="list-divider"> Current Scenes </li>');
 				var scenes = DeviceUtils.scene.octopus.getScenes();
-				$.each(scenes, function(index, scene){
-					var scene = {'name' : scene};
-					var template = Handlebars.getTemplate('scene-listitem');
-					var html = template({'scene' : scene});
-					that.scenesList.append(html);
-				});
-				this.scenesList.listview('refresh');
+				if(scenes.length > 0) {
+					this.scenesList.append('<li data-role="list-divider"> Current Scenes </li>');
+					$.each(scenes, function(index, scene){
+						var template = Handlebars.getTemplate('scene-listitem');
+						var html = template({'scene' : {'name' : scene}});
+						that.scenesList.append(html);
+					});
+					this.scenesList.listview('refresh');
+				}
 			}
 		}, 
 
@@ -302,6 +302,10 @@ DeviceUtils = {
 			addScene : function(name){
 				DeviceUtils.scene.model.addScene(name);
 				DeviceUtils.scene.view.render();
+			}, 
+
+			editScene : function(name){
+				SharedData["currentSceneName"] = name;
 			}
 		}
 	},
@@ -562,7 +566,14 @@ DeviceUtils = {
 SceneEditor = {
 
 	model : {
+		init : function(){
+			var sceneName = SharedData["currentSceneName"];
+			this.scene = Data["scenes"][sceneName];
+		},
 
+		getGraphs : function(){
+			return this.scene.sceneGraphs
+		}
 	}, 
 
 	view : {
