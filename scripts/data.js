@@ -76,8 +76,8 @@ var Data = {
 };
 **/
 AmbientControlData = {
-  "server_url" : "http://192.168.1.118:8080/ControlProfileServer-1.0.0/PluginControlDescription/ids/%s?format=json",
-  "graph_url" : "http://192.168.1.118:8080/ControlProfileServer-1.0.0/ControlGraph?format=JSON",
+  "server_url" : "http://192.168.1.110:8080/ControlProfileServer-1.0.0/PluginControlDescription/ids/%s?format=json",
+  "graph_url" : "http://192.168.1.110:8080/ControlProfileServer-1.0.0/ControlGraph?format=JSON",
   "plugin_ids" : ["org.ambientdynamix.contextplugins.ambientmedia",
                   "org.ambientdynamix.contextplugins.hueplugin",
                   "org.ambientdynamix.contextplugins.myoplugin",
@@ -173,5 +173,6 @@ AmbientControlData = {
 var SharedData = {
   currentRoleName : null, 
   curentScope : null,
-  currentScopeId : null
+  currentScopeId : null, 
+  currentSceneName : null
 };

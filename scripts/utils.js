@@ -270,6 +270,14 @@ DeviceUtils = {
 		view : {
 			init : function(){
 				this.scenesList = $('#scenes-list');
+				this.scenesList.on('click', 'a.edit-scene', function(){
+					console.log($(this).data("name"));
+					SharedData["currentSceneName"] = $(this).data("name");
+					$.mobile.pageContainer.pagecontainer("change", "#scene-editor");
+				});
+				this.scenesList.on('click', 'a.delete-scene', function(){
+					console.log($(this).data("name"));
+				});
 				this.render();
 			}, 
 
@@ -574,13 +582,12 @@ SceneEditor = {
 	view : {
 		init : function(){
 			this.graphsListLegend = $('span.scene-name');
+			this.graphSelector = $('select#graph-id-select');
 			this.render();
-			this.graphSelector = $('#graph-id-select');
 		},
 
 		render : function(){
 			var that = this;
-			
 			$.each(AmbientControlData.graphs, function(index, graph_name){
 				var graph = {'name' : graph_name};
 				var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
@@ -588,15 +595,14 @@ SceneEditor = {
 				that.graphSelector.append(graphIdListitemHtml);
 			});
 			that.graphSelector.selectmenu('refresh');
-			
-			this.graphsListLegend.text();
+			this.graphsListLegend.text(SharedData["currentSceneName"]);
 		}
 	}, 
 
 	octopus : {
 		init : function(){
-			SceneEditor.view.init();
 			SceneEditor.model.init();
+			SceneEditor.view.init();
 		}
 	}
 };
