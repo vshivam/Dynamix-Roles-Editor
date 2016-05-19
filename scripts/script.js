@@ -50,16 +50,6 @@ $(document).on("pageinit", '#roles-page', function(){
 
 	});
 
-	$('#addNewGraphForm').on('submit', function(e){
-		e.preventDefault();
-		var graphName = $('#graph-id-select option:selected').data('name');
-		$('#current-graph-name').text(graphName);
-		var scope = DeviceUtils.getScope();
-		scope["sceneGraphs"] = "graphName";
- 		$('#addNewGraphPopup').popup('close');
- 		Db.updateAll();
-	});
-
 	$('#addNewSceneForm').on('submit', function(e){
 		e.preventDefault();
 		var sceneName = $('input#scene-name').val();

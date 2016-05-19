@@ -388,7 +388,7 @@ DeviceUtils = {
 		var elems = $('.device-list[data-pluginid="' + pluginId + '"]');
 		var deviceListitemTemplate = Handlebars.getTemplate('device-listitem');
 		var deviceListitemCompiledHtml = deviceListitemTemplate({device : device});
-		elems.append(deviceListitemCompiledHtml);
+		elems.append(deviceListitemCompiledHtml);$
 	 	elems.listview();
 	 	elems.listview('refresh');
 	},
@@ -554,7 +554,7 @@ DeviceUtils = {
 	isEmptyObject : function(obj) {
 		for(var prop in obj) {
 			if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-			return false;
+				return false;
 			}
 		}
 		return true;
@@ -571,31 +571,99 @@ SceneEditor = {
 		},
 
 		getGraphs : function(){
+			if(typeof this.scene.sceneGraphs === 'undefined'){
+				this.scene["sceneGraphs"] = [];
+			}
 			return this.scene.sceneGraphs;
 		}, 
 
 		getCommands : function(){
 			return this.scene.commands;
+		}, 
+
+		addGraph : function(graphName){
+			this.scene.sceneGraphs.push(graphName);
+		}, 
+
+		getAccessProfilesForCurrentScope : function(){
+			return DeviceUtils.getAccessProfiles();
+		}, 
+
+		updateCommand : function(pluginId, commands){
+
 		}
 	}, 
 
 	view : {
 		init : function(){
-			this.graphsListLegend = $('span.scene-name');
-			this.graphSelector = $('select#graph-id-select');
-			this.render();
-		},
-
-		render : function(){
 			var that = this;
+			this.graphsListLegend = $('span#scene-name');
+			this.graphSelector = $('select#graph-id-select');
+			this.existingGraphsList = $('ul#graphs-list');
+			this.pluginsList = $('div#scene-editor-plugins-list');
+
+			$('#addNewGraphForm').on('submit', function(e){
+				e.preventDefault();
+				var graphName = $('#graph-id-select option:selected').data('name');
+				SceneEditor.octopus.addGraph(graphName);
+				that.render();
+				Db.updateAll();
+				$('#addNewGraphPopup').popup('close');
+			});
+
 			$.each(AmbientControlData.graphs, function(index, graph_name){
 				var graph = {'name' : graph_name};
 				var graphIdListitemTemplate = Handlebars.getTemplate('graphid-listitem');
 				var graphIdListitemHtml = graphIdListitemTemplate({graph : graph});
 				that.graphSelector.append(graphIdListitemHtml);
 			});
-			that.graphSelector.selectmenu('refresh');
+
+			this.graphSelector.selectmenu('refresh');
+			this.render();
+		},
+
+		render : function(){
+			var that = this;
 			this.graphsListLegend.text(SharedData["currentSceneName"]);
+			this.existingGraphsList.empty();
+			this.pluginsList.empty();
+			var existingGraphs = SceneEditor.octopus.getGraphs();
+			if(existingGraphs.length > 0){
+				that.existingGraphsList.append('<li data-role="header">Existing Graphs</li>');
+				$.each(existingGraphs, function(index, graph_name){
+					that.existingGraphsList.append('<li data-icon="delete"> <a href="#" data-name="'+ graph_name +'">' + graph_name + '</a></li>');
+				});
+				this.existingGraphsList.listview('refresh');
+			}
+
+			var accessProfiles = SceneEditor.octopus.getAccessProfilesForCurrentScope();
+			$.each(accessProfiles, function(index, accessProfile){
+				var accessProfileName = accessProfile.name;
+				var template = Handlebars.getTemplate('device-container');
+				var html = template({accessProfile : accessProfile});
+				that.pluginsList.append(html);
+
+				var pluginId = accessProfile.pluginId;
+				for(key in accessProfile.deviceProfiles){
+					var data = {deviceId : key, commands : {}};
+					var commands = accessProfile.deviceProfiles[key];
+					$.each(commands, function(index, command){
+						data["commands"][command] = true;
+					});
+					var template = Handlebars.getWidgetTemplate(pluginId);
+					var html = template({data : data});
+					var controlsContainerElem = $('ul.controls-container[data-pluginid="'+pluginId +'"]');
+					var controlsListElem = controlsContainerElem.find('li.controls-list');
+					controlsListElem.append(html);
+					controlsListElem.enhanceWithin();
+					if(DynamixWidgets["widgetsMap"][pluginId].watchState !== undefined){
+						DynamixWidgets["widgetsMap"][pluginId].watchState(key, function(state){
+							console.log(state)
+						});
+					}
+				}
+				$('ul.controls-container').listview().listview('refresh')
+			});
 		}
 	}, 
 
@@ -603,6 +671,35 @@ SceneEditor = {
 		init : function(){
 			SceneEditor.model.init();
 			SceneEditor.view.init();
+		}, 
+
+		addGraph : function(graphName){
+			SceneEditor.model.addGraph(graphName);
+		}, 
+
+		getGraphs : function(){
+			return SceneEditor.model.getGraphs();
+		}, 
+
+		getAccessProfilesForCurrentScope : function(){
+			return SceneEditor.model.getAccessProfilesForCurrentScope();
 		}
 	}
+};
+
+Handlebars.getWidgetTemplate = function(pluginId) {
+	if (Handlebars.templates === undefined || Handlebars.templates[pluginId] === undefined) {
+	    $.ajax({
+	        url : 'scripts/dynamix/widgets/templates/' + DynamixWidgets.widgetsMap[pluginId]["template"] + '.handlebars',
+	        success : function(data) {
+	            if (Handlebars.templates === undefined) {
+	                Handlebars.templates = {};
+	            }
+	            Handlebars.templates[pluginId] = Handlebars.compile(data);
+	        },
+	        async : false, 
+	        cache: false
+	    });
+	}
+	return Handlebars.templates[pluginId];
 };

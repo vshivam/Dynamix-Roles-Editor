@@ -19,6 +19,8 @@
         <script type="text/javascript" src="scripts/dynamix/dynamixPairing.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
         <script type="text/javascript" src="scripts/dynamixUtils.js"></script>
+        <script type="text/javascript" src="scripts/dynamix/widgets/js/jqColorPicker.min.js"></script>
+        <script type="text/javascript" src="scripts/dynamix/widgets/widgets.js"></script>
 
     </head>
     <body>
@@ -255,16 +257,23 @@
 
             <div role="main" class="ui-content">
                 <fieldset class="custom">
-                    <legend> Graphs for scene <span id="scene-name"> </span> </legend>
+                    <legend> Graphs for <span id="scene-name"> </span> </legend>
 
                     <ul data-role="listview" data-inset="true" id="add-new-graph">
                         <li class="ui-body" data-icon="plus">
                             <a href="#addNewGraphPopup" data-rel="popup" data-position-to="window" data-transition="pop" data-overlay-theme="b">Add New Graph</a>
                         </li>
                     </ul>
-                    <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="plugins-list">
-                
+                    <ul data-role="listview" class="ui-listview-outer" data-inset="true" id="graphs-list">
+                        
                     </ul>
+                </fieldset>
+
+                <fieldset class="custom">
+                    <legend>Select device state for <span id="scene-name"> </span></legend>
+                    <div id="scene-editor-plugins-list">
+                            
+                    </div>
                 </fieldset>
             </div>
 
