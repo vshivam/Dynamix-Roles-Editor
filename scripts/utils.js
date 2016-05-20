@@ -577,9 +577,13 @@ SceneEditor = {
 			return this.scene.sceneGraphs;
 		}, 
 
+		/*
 		getCommands : function(){
+			if(typeof this.scene.commands === 'undefined')
+				this.scene.commands = {};
 			return this.scene.commands;
 		}, 
+		*/
 
 		addGraph : function(graphName){
 			this.scene.sceneGraphs.push(graphName);
@@ -589,8 +593,27 @@ SceneEditor = {
 			return DeviceUtils.getAccessProfiles();
 		}, 
 
-		updateCommand : function(pluginId, commands){
-
+		updateCommands : function(pluginId, commands){
+			if(typeof this.scene.commands === 'undefined'){
+				this.scene.commands = {};
+			}
+			if(typeof this.scene.commands[pluginId] === 'undefined'){
+				this.scene.commands[pluginId] = [];
+			}
+			var deviceCommands = this.scene.commands[pluginId];			
+			$.each(commands, function(index, command){
+				var exists = false;
+				$.each(deviceCommands, function(index, deviceCommand){
+					if(command.deviceId == deviceCommand.deviceId && command.commandType == deviceCommand.commandType){
+						deviceCommand = command;
+						exists = true;
+					}
+				});
+				if(!exists){
+					deviceCommands.push(command);
+				}
+			});
+			console.log(deviceCommands);
 		}
 	}, 
 
@@ -636,6 +659,11 @@ SceneEditor = {
 				this.existingGraphsList.listview('refresh');
 			}
 
+
+			var widgetStateListener = function(pluginId, state){
+				SceneEditor.octopus.updateCommands(pluginId, state);
+			}
+
 			var accessProfiles = SceneEditor.octopus.getAccessProfilesForCurrentScope();
 			$.each(accessProfiles, function(index, accessProfile){
 				var accessProfileName = accessProfile.name;
@@ -657,12 +685,10 @@ SceneEditor = {
 					controlsListElem.append(html);
 					controlsListElem.enhanceWithin();
 					if(DynamixWidgets["widgetsMap"][pluginId].watchState !== undefined){
-						DynamixWidgets["widgetsMap"][pluginId].watchState(key, function(state){
-							console.log(state)
-						});
+						DynamixWidgets["widgetsMap"][pluginId].watchState(key, widgetStateListener);
 					}
 				}
-				$('ul.controls-container').listview().listview('refresh')
+				$('ul.controls-container').listview().listview('refresh');
 			});
 		}
 	}, 
@@ -683,6 +709,10 @@ SceneEditor = {
 
 		getAccessProfilesForCurrentScope : function(){
 			return SceneEditor.model.getAccessProfilesForCurrentScope();
+		}, 
+
+		updateCommands : function(pluginId, commands){
+			SceneEditor.model.updateCommands(pluginId, commands);
 		}
 	}
 };
