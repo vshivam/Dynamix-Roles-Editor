@@ -600,12 +600,19 @@ SceneEditor = {
 			if(typeof this.scene.commands[pluginId] === 'undefined'){
 				this.scene.commands[pluginId] = [];
 			}
-			var deviceCommands = this.scene.commands[pluginId];			
+			var deviceCommands = this.scene.commands[pluginId];	
+			console.log("Existing Commands");		
+			console.log(deviceCommands);
+
+			console.log("Updated Commands");
+			console.log(commands);
 			$.each(commands, function(index, command){
 				var exists = false;
 				$.each(deviceCommands, function(index, deviceCommand){
 					if(command.deviceId == deviceCommand.deviceId && command.commandType == deviceCommand.commandType){
-						deviceCommand = command;
+						console.log(deviceCommand);
+						console.log(command);
+						deviceCommands[index] = command;
 						exists = true;
 					}
 				});
