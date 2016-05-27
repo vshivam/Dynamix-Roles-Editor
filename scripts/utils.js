@@ -631,7 +631,6 @@ SceneEditor = {
 			this.graphSelector = $('select#graph-id-select');
 			this.existingGraphsList = $('ul#graphs-list');
 			this.pluginsList = $('div#scene-editor-plugins-list');
-
 			$('#addNewGraphForm').on('submit', function(e){
 				e.preventDefault();
 				var graphName = $('#graph-id-select option:selected').data('name');
@@ -657,6 +656,7 @@ SceneEditor = {
 			this.graphsListLegend.text(SharedData["currentSceneName"]);
 			this.existingGraphsList.empty();
 			this.pluginsList.empty();
+			$('a#save-widgets-state').remove();
 			var existingGraphs = SceneEditor.octopus.getGraphs();
 			if(existingGraphs.length > 0){
 				that.existingGraphsList.append('<li data-role="header">Existing Graphs</li>');
@@ -696,6 +696,14 @@ SceneEditor = {
 					}
 				}
 				$('ul.controls-container').listview().listview('refresh');
+			});
+
+			$('div#scene-editor')
+			.find('.ui-content')
+			.append('<center><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" id="save-widgets-state">Save</a></center>');
+			
+			$('a#save-widgets-state').on('click', function(e){
+				Db.updateAll();
 			});
 		}
 	}, 
